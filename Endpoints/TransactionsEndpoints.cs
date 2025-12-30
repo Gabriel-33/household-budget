@@ -1,0 +1,159 @@
+﻿using HouseHoldeBudget.Models;
+using HouseHoldeBudgetApi.Summaries;
+using Microsoft.AspNetCore.Mvc;
+using HouseHoldeBudgetApi.Controllers;
+using HouseHoldeBudgetApi.Models;
+
+namespace HouseHoldeBudgetApi.Endpoints;
+public static class TransactionsEndpoints
+{
+    public static RouteGroupBuilder MapTransactionsEndpoints(this RouteGroupBuilder builder)
+    {
+        builder.MapGet("listarDisciplinasWithPagination", GetDisciplinas)
+            .WithOpenApi(DisciplinaSummaries.DisciplinaGetDisciplinas);
+        builder.MapGet("listarDisciplinas", GetAllDisciplinas);
+        builder.MapGet("listarDisciplina/{idDisciplina:int}", GetDisciplina)
+            .WithOpenApi(DisciplinaSummaries.DisciplinaGetDisciplina);
+        builder.MapPost("cadastrarDisciplina", CreateDisciplina)
+            .WithOpenApi(DisciplinaSummaries.DisciplinaCreateDisciplina);
+        builder.MapPut("editarDisciplina", UpdateDisciplina)
+            .WithOpenApi(DisciplinaSummaries.DisciplinaUpdateDisciplina);
+        builder.MapDelete("excluirDisciplina", DeleteDisciplina)
+            .WithOpenApi(DisciplinaSummaries.DisciplinaDeleteDisciplina);
+
+        return builder;
+    }
+
+    [ProducesResponseType(typeof(List<DisciplinaReadModel>), 200)]
+    private static async Task<IResult> GetAllDisciplinas(HttpContext context,
+        [FromServices] ITransactionsController controller)
+    {
+
+        List<DisciplinaModel>? result;
+        try
+        {
+            result = await controller.GetAllDisciplinas();
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+
+        return Results.Ok(result);
+    }
+
+    [ProducesResponseType(typeof(List<DisciplinaReadModel>), 200)]
+    private static async Task<IResult> GetDisciplinas(HttpContext context,
+        [FromQuery] int page,
+        [FromQuery] int pageSize,
+        [FromQuery] int idCurso,
+        [FromServices] ITransactionsController controller)
+    {
+
+        DisciplinaListResponse? result;
+        try
+        {
+            result = await controller.GetAllDisciplinasWithPagination(page,pageSize, idCurso);
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+
+        return Results.Ok(result);
+    }
+    
+    [ProducesResponseType(typeof(DisciplinaReadModel), 200)]
+    private static async Task<IResult> GetDisciplina(HttpContext context,
+            [FromRoute(Name = "IdDisciplina")] int idDisciplina,
+            [FromServices] ITransactionsController controller)
+    {
+        DisciplinaReadModel? result;
+        try
+        {
+            bool disciplinaExists = await controller.VerifyDisciplinaCreatedWithId(idDisciplina);
+
+            if(disciplinaExists == true)
+                result = await controller.GetDisciplinaById(idDisciplina);
+            else
+                return Results.Content("Disciplina inexistente",
+                statusCode: StatusCodes.Status409Conflict);
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+
+        return Results.Ok(result);
+    }
+
+    [ProducesResponseType(typeof(RegisterDisciplinaRequestModel), 200)]
+    private static async Task<IResult> CreateDisciplina(HttpContext context,
+        [FromBody] RegisterDisciplinaRequestModel novaDisciplina,
+        [FromServices] ITransactionsController controller)
+    {
+        var checkIfObjectExists = await controller.VerifyDisciplinaCreated(novaDisciplina);
+
+        if(checkIfObjectExists == false)
+        {
+            try
+            {
+                await controller.CreateDisciplina(novaDisciplina);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
+        else
+        {
+            return Results.Content("Disciplina existente", 
+                statusCode: StatusCodes.Status409Conflict);
+        }
+
+        return Results.Ok(novaDisciplina);
+    }
+    
+    [ProducesResponseType(typeof(RegisterDisciplinaRequestModel), 200)]
+    private static async Task<IResult> UpdateDisciplina(HttpContext context,
+        [FromBody] RegisterDisciplinaRequestModel novaDisciplina,
+        [FromServices] ITransactionsController controller)
+    {
+        bool checkIfDisciplinaExists = await controller.VerifyDisciplinaCreated(novaDisciplina);
+
+        if (checkIfDisciplinaExists == false)
+        {
+            try
+            {
+                await controller.UpdateDisciplina(novaDisciplina);
+            }
+            catch (Exception e)
+            {
+                return Results.BadRequest(e.Message);
+            }
+        }
+        else{
+            return Results.Content("Disciplina existente", 
+                statusCode: StatusCodes.Status409Conflict);
+        }
+
+        return Results.Ok(novaDisciplina);
+    }
+    
+    [ProducesResponseType(typeof(DisciplinaModel), 200)]
+    private static async Task<IResult> DeleteDisciplina(HttpContext context,
+        [FromQuery] int disciplinaIdentifier, //TODO: Precissa do modelo inteiro para deletar?
+        [FromServices] ITransactionsController controller)
+    {
+        try
+        {
+            await controller.DeleteDisciplina(disciplinaIdentifier);
+        }
+        catch (Exception e)
+        {
+            return Results.BadRequest(e.Message);
+        }
+
+        return Results.Ok(disciplinaIdentifier);
+    }
+}

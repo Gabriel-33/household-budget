@@ -1,0 +1,34 @@
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+
+namespace HouseHoldeBudgetApi.Middlewares.Cors;
+
+public static class CorsPolicy
+{
+    public static IServiceCollection AddCustomCors(this IServiceCollection services, IConfiguration configuration)
+    {
+        var allowedOrigins = configuration.GetSection("CorsParameters:AllowedOrigins").Get<string[]>();
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy(CorsPoliciesName.ALLOW_ALL_CORS_POLICY,
+                builder => CustomCorsPolicies.AllowAllCorsPolicy(builder, allowedOrigins));
+        });
+
+        return services;
+    }
+}
+
+file static class CustomCorsPolicies
+{
+    public static void AllowAllCorsPolicy(CorsPolicyBuilder builder, string[] allowedOrigin)
+    {
+        bool allowAll = allowedOrigin != null && allowedOrigin.Contains("*");
+        
+        builder.AllowAnyHeader().AllowAnyMethod();
+        
+        if (allowAll)
+            builder.SetIsOriginAllowed(origin => true).AllowCredentials();
+        else if (allowedOrigin != null && allowedOrigin.Length > 0)
+            builder.WithOrigins(allowedOrigin).AllowCredentials();
+    }
+}

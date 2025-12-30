@@ -1,0 +1,3 @@
+﻿# 
+## Gerenciador de Gastos Residenciais
+
