@@ -9,8 +9,7 @@ public class UserLoginRequestModelValidator : AbstractValidator<UserLoginRequest
     public UserLoginRequestModelValidator()
     {
         RuleFor(m => m.email)
-            .NotEmpty()
-            .MatchEmail();
+            .NotEmpty();
         RuleFor(m => m.password)
             .NotNull()
             .NotEmpty()

@@ -53,7 +53,7 @@ public interface IUsuarioRepository
     /// <param name="matricula">Matrícula do usuario para verficiação.</param>
     /// <param name="email">Email para verificação.</param>
     /// <returns><c>true</c> se já houver cadastro no banco, caso contrário <c>false</c></returns>
-    public Task<bool> CheckUserByMatriculaAndEmail(string matricula, string email);
+    public Task<bool> CheckUserByEmail(string email);
     /// <summary>
     /// Adiciona o usuario ao banco de dados.
     /// </summary>

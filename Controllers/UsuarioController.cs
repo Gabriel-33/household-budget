@@ -17,19 +17,14 @@ namespace HouseHoldeBudgetApi.Controllers;
 public class UsuarioController : IUsuarioController
 {
     private readonly IUsuarioRepository _userRepository;
-    private readonly ICursoRepository _cursoRepository;
-    private readonly ICodigoUsuarioRepository _codigoUsuarioRepository;
     private readonly UsuarioModelMapper _usuarioModelMapper;
     private readonly IValidator<UpdateUserRequestModel> _updateUserValidator;
     private ILogger logger { get; }
     private IHashService hashService { get; }
     public UsuarioController(IUsuarioRepository userRepository, UsuarioModelMapper usuarioModelMapper,
-        ICursoRepository cursoRepository, ICodigoUsuarioRepository codigoUsuarioRepository,
         IValidator<UpdateUserRequestModel> updateUserValidator, ILogger logger, IHashService hashService)
     {
-        _userRepository = userRepository;
-        _cursoRepository = cursoRepository;
-        _codigoUsuarioRepository = codigoUsuarioRepository;
+        _userRepository = userRepository;   
         _usuarioModelMapper = usuarioModelMapper;
         _updateUserValidator = updateUserValidator;
         this.logger = logger;
@@ -151,7 +146,6 @@ public class UsuarioController : IUsuarioController
             throw usuarioNotFoundException;
         }
         
-        await _codigoUsuarioRepository.DeleteAllUsersCodes(user);
         _userRepository.DeleteUser(user);
         await _userRepository.FlushChanges();
         
@@ -178,30 +172,6 @@ public class UsuarioController : IUsuarioController
         if (request.role is not null || request.role.HasValue)
         {
             user.tipoUsuario = request.role.Value;
-            updated = true;
-        }
-
-        if (request.active is not null || request.active.HasValue)
-        {
-            updated = true;
-        }
-
-        if (request.codeCurso is not null || request.codeCurso.HasValue)
-        {
-            CursoModel? curso = await _cursoRepository.GetCursoById(request.codeCurso.Value);
-
-            if (curso is null)
-            {
-                CursoNotFoundException cursoNotFoundExceptionException = new(request.codeCurso.Value);
-                logger.Error(cursoNotFoundExceptionException, "Curso não encontrado");
-                throw cursoNotFoundExceptionException;
-            }
-            
-            updated = true;
-        }
-
-        if (request.imagem is not null)
-        {
             updated = true;
         }
 

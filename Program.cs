@@ -90,7 +90,6 @@ RouteGroupBuilder transacoesGroup = app.MapGroup("transacoes")
     .WithTags("Transações - Sistema de Gastos");
 transacoesGroup.MapTransacaoEndpoints();
 
-// Program.cs
 RouteGroupBuilder categoriasGroup = app.MapGroup("categorias")
     .AddEndpointFilter<ApiKeyFilter>()
     .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)

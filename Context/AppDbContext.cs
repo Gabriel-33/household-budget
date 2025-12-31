@@ -16,26 +16,6 @@ public class AppDbContext : DbContext
     /// Tabela de usuários. <see cref="UsuarioModel"/>
     /// </summary>
     public DbSet<UsuarioModel> usuarios { get; set; } = null!;
-    
-    /// <summary>
-    /// Tabela de cursos. <see cref="CursoModel"/>
-    /// </summary>
-    public DbSet<CursoModel> cursos { get; set; } = null!;
-    
-    /// <summary>
-    /// Tabela de códigos de confirmação de email e recuperação de senha. <see cref="CodigoUsuarioModel"/>
-    /// </summary>
-    public DbSet<CodigoUsuarioModel> codigoUsuario { get; set; } = null!;
-    
-    /// <summary>
-    /// Tabela de disciplinas. <see cref="DisciplinaModel"/>
-    /// </summary>
-    public DbSet<DisciplinaModel> disciplinas { get; set; } = null!;
-    
-    /// <summary>
-    /// Tabela de discussões. <see cref="TopicoDiscussaoModel"/>
-    /// </summary>
-    public DbSet<TopicoDiscussaoModel> discussao { get; set; } = null!;
 
     /// <summary>
     /// Tabela de pessoas no sistema de gastos

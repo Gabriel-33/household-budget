@@ -22,13 +22,5 @@ public class UpdateUserRequestModelValidator : AbstractValidator<UpdateUserReque
         RuleFor(m => m.role)
             .IsInEnum()
             .When(f => f.role is not null);
-        RuleFor(m => m.codeCurso)
-            .NotNull()
-            .GreaterThan(0)
-            .When(f => f.codeCurso is not null);
-        RuleFor(m => m.imagem)
-            .NotNull()
-            .NotEmpty()
-            .When(m => m.imagem is not null);
     }
 }

@@ -16,7 +16,6 @@ using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Options;
 using HouseHoldeBudgetApi.Models.Requests;
 using HouseHoldeBudgetApi.Repositories;
-using HouseHoldeBudgetApi.Services.Email;
 using HouseHoldeBudgetApi.Services.Hash;
 using HouseHoldeBudgetApi.Services.Jwt;
 using HouseHoldeBudgetApi.Utils;
@@ -113,7 +112,6 @@ public static class Di
     public static IServiceCollection AddLocalServices(this IServiceCollection services)
     {
         services.AddSingleton<IJwtService, JwtService>();
-        services.AddTransient<IEmailService, EmailService>();
         services.AddSingleton<IHashService, ArgonHashService>();
         services.AddSingleton<EnvironmentService>(_ => 
             EnvVars.CreateEnvironmentServiceFromVariables());
@@ -128,8 +126,6 @@ public static class Di
     {
         services.AddTransient<UsuarioModelMapper>();
         services.AddTransient<RegisterUserRequestModelMapper>();
-        services.AddTransient<CodigoUsuarioModelMapper>();
-        services.AddTransient<ResetUserPasswordRequestModelMapper>();
         services.AddTransient<PessoaModelMapper>();
         services.AddTransient<CategoriaModelMapper>();
         services.AddTransient<TransacaoModelMapper>();
@@ -144,8 +140,6 @@ public static class Di
     {
         services.AddScoped<IValidator<RegisterUserRequestModel>, RegisterUserRequestModelValidator>();
         services.AddScoped<IValidator<UserLoginRequestModel>, UserLoginRequestModelValidator>();
-        services.AddScoped<IValidator<ConfirmUserEmailRequestModel>, ConfirmUserEmailRequestModelValidator>();
-        services.AddScoped<IValidator<ResetUserPasswordRequestModel>, ResetUserPasswordRequestModelValidator>();
         services.AddScoped<IValidator<UpdateUserRequestModel>, UpdateUserRequestModelValidator>();
         services.AddScoped<IValidator<CreatePessoaRequestModel>, CreatePessoaRequestModelValidator>();
         services.AddScoped<IValidator<CreateCategoriaRequestModel>, CreateCategoriaRequestModelValidator>();
@@ -182,10 +176,6 @@ public static class Di
     public static IServiceCollection AddApiRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-        services.AddScoped<ICursoRepository, CursoRepository>();
-        services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
-        services.AddScoped<ICodigoUsuarioRepository, CodigoUsuarioRepository>();
-        services.AddScoped<ITopicoDiscussaoRepository,TopicoDiscussaoRepository>();
         services.AddScoped<IPessoaRepository, PessoaRepository>();
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<ITransacaoRepository, TransacaoRepository>();

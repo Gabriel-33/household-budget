@@ -8,10 +8,6 @@ internal static class EnvVars
     private const string API_KEY = "API_KEY";
     private const string POSTGRES_CONNECTION_STRING = "POSTGRES_CONNECTION_STRING";
     private const string JWT_KEY = "JWT_KEY";
-    private const string SMTP_SERVER = "SMTP_SERVER";
-    private const string SMTP_PORT = "SMTP_PORT";
-    private const string SMTP_EMAIL = "SMTP_EMAIL";
-    private const string SMTP_PASSWORD = "SMTP_PASSWORD";
     private const string PASSWORD_SALT = "PASSWORD_SALT";
     private const string SUPABASE_URL = "SUPA_URL";
     private const string SUPABASE_KEY = "SUPA_KEY";
@@ -22,14 +18,7 @@ internal static class EnvVars
         Environment.GetEnvironmentVariable(POSTGRES_CONNECTION_STRING);
     private static string? GetJwtKey() =>
         Environment.GetEnvironmentVariable(JWT_KEY);
-    private static string? GetSmtpServer() =>
-        Environment.GetEnvironmentVariable(SMTP_SERVER);
-    private static string? GetSmtpPort() =>
-        Environment.GetEnvironmentVariable(SMTP_PORT);
-    private static string? GetSmtpEmail() =>
-        Environment.GetEnvironmentVariable(SMTP_EMAIL);
-    private static string? GetSmtpPassword() =>
-        Environment.GetEnvironmentVariable(SMTP_PASSWORD);
+    
     private static string? GetPasswordSalt() =>
         Environment.GetEnvironmentVariable(PASSWORD_SALT);
     
@@ -45,10 +34,6 @@ internal static class EnvVars
             apiKey = GetApiKey() ?? throw new ArgumentNullException(API_KEY),
             postgresConnectionString = GetPostgresConnectionString() ?? throw new ArgumentNullException(POSTGRES_CONNECTION_STRING),
             jwtKey = GetJwtKey() ?? throw new ArgumentNullException(JWT_KEY),
-            smtpServer = GetSmtpServer() ?? throw new ArgumentNullException(SMTP_SERVER),
-            smtpPort = GetSmtpPort() ?? throw new ArgumentNullException(SMTP_PORT),
-            smtpEmail = GetSmtpEmail() ?? throw new ArgumentNullException(SMTP_EMAIL),
-            smtpPassword = GetSmtpPassword() ?? throw new ArgumentNullException(SMTP_PASSWORD),
             passwordSalt = GetPasswordSalt() ?? throw new ArgumentNullException(PASSWORD_SALT),
             supabaseUrl = GetSupabaseUrl() ?? throw new ArgumentNullException(SUPABASE_URL),
             supabaseKey = GetSupabaseKey() ?? throw new ArgumentNullException(SUPABASE_KEY)

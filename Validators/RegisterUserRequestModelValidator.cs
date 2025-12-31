@@ -13,8 +13,7 @@ public class RegisterUserRequestModelValidator : AbstractValidator<RegisterUserR
             .NotEmpty()
             .MaximumLength(45);
         RuleFor(m => m.email)
-            .NotNull()
-            .MatchEmail();
+            .NotNull();
         RuleFor(m => m.password)
             .NotNull()
             .NotEmpty()

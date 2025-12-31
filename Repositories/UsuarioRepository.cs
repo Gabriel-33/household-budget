@@ -107,7 +107,7 @@ public class UsuarioRepository : IUsuarioRepository
         return (result, result.Count, usersCount);
     }
 
-    public async Task<bool> CheckUserByMatriculaAndEmail(string matricula, string email)
+    public async Task<bool> CheckUserByEmail(string email)
     {
         bool exists = await _dbContext.usuarios
             .AnyAsync(u => u.emailUsuario == email);

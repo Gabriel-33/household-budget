@@ -94,7 +94,7 @@ public static class UserEndpoints
         {
             return Results.BadRequest(e.Message);
         }
-        catch (Exception e) when (e is CursoNotFoundException or UsuarioNotFoundException)
+        catch (UsuarioNotFoundException e)
         {
             return Results.NotFound(e.Message);
         }
