@@ -165,8 +165,6 @@ public static class Di
                 AuthorizationPolicies.RequireIdentifierAndUserRole);
             options.AddPolicy(AuthorizationPolicies.REQUIRE_IDENTIFIER_AND_ADMIN_ROLE,
                 AuthorizationPolicies.RequireIdentifierAndAdminRole);
-            options.AddPolicy(AuthorizationPolicies.REQUIRE_IDENTIFIER_AND_PROF_ROLE,
-                AuthorizationPolicies.RequireIdentifierAndProfRole);
         });
         
         services.AddAuthentication(options =>

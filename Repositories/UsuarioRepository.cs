@@ -23,11 +23,8 @@ public class UsuarioRepository : IUsuarioRepository
     {
         UsuarioModel? usuarioModel = null;
 
-        if(onlyFindAsync)
-            usuarioModel = await _dbContext.usuarios.FindAsync(id);
-        else
-            usuarioModel = await _dbContext.usuarios.AsNoTracking().Include(m => m.curso).FirstOrDefaultAsync(m => m.idUsuario == id);
-
+       usuarioModel = await _dbContext.usuarios.FindAsync(id);
+       
         if (usuarioModel is null) return null;
 
         return usuarioModel;
@@ -37,20 +34,12 @@ public class UsuarioRepository : IUsuarioRepository
     {
         UsuarioModel? userModel = null;
 
-        if (isUserActive)
-        {
-            userModel = await _dbContext.usuarios
-            .FirstOrDefaultAsync(u => u.emailUsuario == email && u.statusUsuario == true);
-        }
-        else
-        {
-            userModel = await _dbContext.usuarios
-            .FirstOrDefaultAsync(u => u.emailUsuario == email);
-        }
+        
+        userModel = await _dbContext.usuarios
+        .FirstOrDefaultAsync(u => u.emailUsuario == email);
 
         if (userModel is null) return null;
 
-        await _dbContext.Entry(userModel).Reference(m => m.curso).LoadAsync();
         return userModel;
     }
 
@@ -73,23 +62,8 @@ public class UsuarioRepository : IUsuarioRepository
         
         var query = inDbContext.usuarios
             .AsNoTracking()
-            .Include(f => f.curso)
             .OrderBy(f => f.idUsuario)
             .AsQueryable();
-        
-        // filtro por statusUsuario (apenas se for 0 ou 1)
-        if (statusUsuario == 1)
-            query = query.Where(f => f.statusUsuario == false);
-        else if (statusUsuario == 2)
-            query = query.Where(f => f.statusUsuario == true);
-        
-        // filtro por userType (apenas se for 1, 2 ou 3)
-        if (userType == 1)
-            query = query.Where(f => f.tipoUsuario == UserRole.Admin);
-        else if (userType == 2)
-            query = query.Where(f => f.tipoUsuario == UserRole.Prof);
-        else if (userType == 3)
-            query = query.Where(f => f.tipoUsuario == UserRole.User);
         
         // paginação e execução da query
         result = await query
@@ -117,21 +91,7 @@ public class UsuarioRepository : IUsuarioRepository
     private async Task<int> GetUsersCount(AppDbContext inDbContext, int userType = 0, int statusUsuario = 0)
     {
         var query = inDbContext.usuarios.AsQueryable();
-    
-        // filtro por statusUsuario (apenas se for 1 ou 2)
-        if (statusUsuario == 1)
-            query = query.Where(f => f.statusUsuario == false);
-        else if (statusUsuario == 2)
-            query = query.Where(f => f.statusUsuario == true);
-    
-        // filtro por userType (apenas se for 1, 2 ou 3)
-        if (userType == 1)
-            query = query.Where(f => f.tipoUsuario == UserRole.Admin);
-        else if (userType == 2)
-            query = query.Where(f => f.tipoUsuario == UserRole.Prof);
-        else if (userType == 3)
-            query = query.Where(f => f.tipoUsuario == UserRole.User);
-    
+        
         return await query.CountAsync();
     }
 
@@ -150,8 +110,7 @@ public class UsuarioRepository : IUsuarioRepository
     public async Task<bool> CheckUserByMatriculaAndEmail(string matricula, string email)
     {
         bool exists = await _dbContext.usuarios
-            .AnyAsync(u => u.matricula == matricula ||
-                           u.emailUsuario == email);
+            .AnyAsync(u => u.emailUsuario == email);
         return exists;
     }
 

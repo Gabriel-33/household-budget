@@ -118,9 +118,6 @@ public class AuthController : IAuthController
         string rawUserPassword = registerUserRequestModel.password;
         UsuarioModel usuarioModel = registerUserRequestModelMapper
             .RegisterUserRequestModelToUsuarioModel(registerUserRequestModel);
-        usuarioModel.curso = relatedCurso;
-        usuarioModel.statusUsuario = false;
-        usuarioModel.dataCadastroUsuario = new(registerDate.Year, registerDate.Month, registerDate.Day);
         usuarioModel.senhaUsuario = hashService.Hash(rawUserPassword);
         usuarioModel.tipoUsuario = UserRole.User;        
 
@@ -190,9 +187,6 @@ public class AuthController : IAuthController
         string rawUserPassword = registerUserRequestModel.password;
         UsuarioModel usuarioModel = registerUserRequestModelMapper
             .RegisterUserRequestModelToUsuarioModel(registerUserRequestModel);
-        usuarioModel.curso = relatedCurso;
-        usuarioModel.statusUsuario = true;
-        usuarioModel.dataCadastroUsuario = new(registerDate.Year, registerDate.Month, registerDate.Day);
         usuarioModel.senhaUsuario = hashService.Hash(rawUserPassword);
         usuarioModel.tipoUsuario = registerUserRequestModel.role;
 
@@ -326,7 +320,6 @@ public class AuthController : IAuthController
         }
 
         codigoUsuarioRepository.UseCode(confirmedUserCode);
-        usuarioModel.statusUsuario = true;
         await codigoUsuarioRepository.Flush();
         CodigoUsuarioReadModel codigoUsuarioReadModel = codigoUsuarioModelMapper
             .CodigoUsuarioToCodigoUsuarioReadModel(confirmedUserCode);
@@ -423,11 +416,6 @@ public class AuthController : IAuthController
             UsuarioNotFoundException exception = new(nameof(userId), userId.ToString());
             logger.Error(exception, "Usuário não encontrado");
             throw exception;
-        }
-        if (usuarioModel.statusUsuario)
-        {
-            logger.Warning("Este usuário já está com Email[{UserEmail}] confirmado",
-                usuarioModel.emailUsuario);
         }
 
         bool emailSended = await GenerateAndSendConfirmationEmail(usuarioModel);

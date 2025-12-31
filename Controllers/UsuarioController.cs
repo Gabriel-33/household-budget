@@ -128,7 +128,6 @@ public class UsuarioController : IUsuarioController
         else logger.Warning("Nenhuma informação foi atualizada para o usuário ID[{ID}]", userId);
         
         logger.Information("Usuário ID[{ID}] atualizado", userId);
-        user.curso = new CursoModel();
         UserReadModel userRead = _usuarioModelMapper.UsuarioModelToUserReadModel(user);
         return userRead;
     }
@@ -184,7 +183,6 @@ public class UsuarioController : IUsuarioController
 
         if (request.active is not null || request.active.HasValue)
         {
-            user.statusUsuario = request.active.Value;
             updated = true;
         }
 
@@ -199,13 +197,11 @@ public class UsuarioController : IUsuarioController
                 throw cursoNotFoundExceptionException;
             }
             
-            user.curso = curso;
             updated = true;
         }
 
         if (request.imagem is not null)
         {
-            user.imagemUsuario = request.imagem;
             updated = true;
         }
 

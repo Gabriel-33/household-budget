@@ -10,6 +10,5 @@ public partial class RegisterUserRequestModelMapper
     [MapProperty(nameof(RegisterUserRequestModel.email), nameof(UsuarioModel.emailUsuario))]
     [MapProperty(nameof(RegisterUserRequestModel.password), nameof(UsuarioModel.senhaUsuario))]
     [MapProperty(nameof(RegisterUserRequestModel.role), nameof(UsuarioModel.tipoUsuario))]
-    [MapProperty(nameof(RegisterUserRequestModel.username), nameof(UsuarioModel.nomeUsuario))]
     public partial UsuarioModel RegisterUserRequestModelToUsuarioModel(RegisterUserRequestModel model);
 }
