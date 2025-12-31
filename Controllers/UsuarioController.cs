@@ -8,7 +8,6 @@ using HouseHoldeBudgetApi.Exceptions;
 using HouseHoldeBudgetApi.Mapper;
 using HouseHoldeBudgetApi.Models;
 using ILogger = Serilog.ILogger;
-using ValidationException = HouseHoldeBudgetApi.Exceptions.ValidationException;
 
 namespace HouseHoldeBudgetApi.Controllers;
 
@@ -44,8 +43,8 @@ public class UsuarioController : IUsuarioController
         PageValidator validator = new(page, pageSize);
         if (!validator.isValid)
         {
-            ValidationException exception = new(["Parâmetros de paginação inválidos"]);
-            logger.Error(exception, "Parâmetros de paginação inválidos");
+            ValidationException exception = new("Parâmetros de paginação inválidos");
+            logger.Error("Parâmetros de paginação inválidos");
             throw exception;
         }
         
@@ -108,7 +107,7 @@ public class UsuarioController : IUsuarioController
         ValidationResult result = await _updateUserValidator.ValidateAsync(request);
         if (!result.IsValid)
         {
-            ValidationException exception = new(result.Errors.Select(e => e.ErrorMessage));
+            ValidationException exception = new(result.Errors.Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Requisição de atualização do usuário inválida");
             throw exception;
         }

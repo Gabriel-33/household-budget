@@ -13,7 +13,6 @@ using HouseHoldeBudgetApi.Services.Jwt;
 using HouseHoldeBudgetApi.Validators;
 using System.Security.Claims;
 using ILogger = Serilog.ILogger;
-using ValidationException = HouseHoldeBudgetApi.Exceptions.ValidationException;
 
 namespace HouseHoldeBudgetApi.Controllers;
 
@@ -82,7 +81,7 @@ public class AuthController : IAuthController
         if (!validationResult.IsValid)
         {
             ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage));
+                .Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Validation issues");
             throw exception;
         }
@@ -154,7 +153,7 @@ public class AuthController : IAuthController
         if (!validationResult.IsValid)
         {
             ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage));
+                .Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Validation issues");
             throw exception;
         }
@@ -232,7 +231,7 @@ public class AuthController : IAuthController
         if (!validationResult.IsValid)
         {
             ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage));
+                .Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Validation issues");
             throw exception;
         }
@@ -290,7 +289,7 @@ public class AuthController : IAuthController
         if (!validationResult.IsValid)
         {
             ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage));
+                .Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Validation issues");
             throw exception;
         }
@@ -357,7 +356,7 @@ public class AuthController : IAuthController
         if (!validationResult.IsValid)
         {
             ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage));
+                .Select(e => e.ErrorMessage).ToString());
             logger.Error(exception, "Validation issues");
             throw exception;
         }

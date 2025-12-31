@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using HouseholdBudgetApi.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Summaries;

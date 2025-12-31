@@ -1,3 +1,4 @@
+using HouseholdBudgetApi.Endpoints;
 using Serilog;
 using HouseHoldeBudgetApi.Endpoints;
 using HouseHoldeBudgetApi.Endpoints.AuthEndpoints;
@@ -71,16 +72,35 @@ RouteGroupBuilder userGroup = app.MapGroup("user")
     .WithTags("Usuário");
 userGroup.MapUserEndpoints();
 
-RouteGroupBuilder transactionsGroup = app.MapGroup("transactions")
-    .AddEndpointFilter<ApiKeyFilter>()
-    .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
-    .WithTags("Transactions");
-transactionsGroup.MapTransactionsEndpoints();
-
 RouteGroupBuilder utilsGroup = app.MapGroup("utils")
     .AddEndpointFilter<ApiKeyFilter>()
     .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
     .WithTags("Utils");
 utilsGroup.MapUtilsEndpoints();
+
+RouteGroupBuilder pessoasGroup = app.MapGroup("pessoas")
+    .AddEndpointFilter<ApiKeyFilter>()
+    .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
+    .WithTags("Pessoas - Sistema de Gastos");
+pessoasGroup.MapPessoaEndpoints();
+
+RouteGroupBuilder transacoesGroup = app.MapGroup("transacoes")
+    .AddEndpointFilter<ApiKeyFilter>()
+    .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
+    .WithTags("Transações - Sistema de Gastos");
+transacoesGroup.MapTransacaoEndpoints();
+
+// Program.cs
+RouteGroupBuilder categoriasGroup = app.MapGroup("categorias")
+    .AddEndpointFilter<ApiKeyFilter>()
+    .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
+    .WithTags("Categorias - Sistema de Gastos");
+categoriasGroup.MapCategoriaEndpoints();
+
+RouteGroupBuilder relatorioGroup = app.MapGroup("relatorios")
+    .AddEndpointFilter<ApiKeyFilter>()
+    .RequireCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY)
+    .WithTags("Relatórios - Sistema de Gastos");
+relatorioGroup.MapRelatorioEndpoints();
 
 app.Run();

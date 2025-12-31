@@ -1,13 +1,25 @@
-using HouseHoldeBudgetApi.Utils.Extensions;
-
-namespace HouseHoldeBudgetApi.Exceptions;
+// Exceptions/ValidationException.cs (se não existir, crie)
+namespace HouseholdBudgetApi.Exceptions;
 
 public class ValidationException : Exception
 {
-    private const string MESSAGE = "{0}";
+    public IEnumerable<string> Errors { get; }
 
-    public ValidationException(IEnumerable<string> errors) : 
-        base(string.Format(MESSAGE, errors.ToSeparatedString())) { }
-    public ValidationException(string error) : 
-        base(string.Format(MESSAGE, error)) { }
+    public ValidationException(string message) : base(message)
+    {
+        Errors = new List<string> { message };
+    }
+
+    public ValidationException(IEnumerable<string> errors) 
+        : base(string.Join("; ", errors))
+    {
+        Errors = errors;
+    }
+
+    // Adicione este construtor para compatibilidade com FluentValidation
+    public ValidationException(IEnumerable<FluentValidation.Results.ValidationFailure> failures)
+        : base(string.Join("; ", failures.Select(f => f.ErrorMessage)))
+    {
+        Errors = failures.Select(f => f.ErrorMessage).ToList();
+    }
 }

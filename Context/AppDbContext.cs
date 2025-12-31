@@ -37,6 +37,21 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<TopicoDiscussaoModel> discussao { get; set; } = null!;
 
+    /// <summary>
+    /// Tabela de pessoas no sistema de gastos
+    /// </summary>
+    public DbSet<Pessoa> Pessoas { get; set; }
+    
+    /// <summary>
+    /// Tabela de categorias no sistema de gastos
+    /// </summary>
+    public DbSet<Categoria> Categorias { get; set; }
+    
+    /// <summary>
+    /// Tabela de transações no sistema de gastos
+    /// </summary>
+    public DbSet<Transacao> Transacoes { get; set; }
+    
     public AppDbContext(EnvironmentService environmentService)
     {
         connectionString = environmentService.postgresConnectionString;

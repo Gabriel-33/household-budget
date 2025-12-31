@@ -1,4 +1,7 @@
 using FluentValidation;
+using HouseholdBudgetApi.Controllers;
+using HouseholdBudgetApi.Repositories;
+using HouseholdBudgetApi.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Metrics;
@@ -11,6 +14,7 @@ using HouseHoldeBudgetApi.Middlewares.Auth;
 using HouseHoldeBudgetApi.Middlewares.Swagger;
 using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Options;
+using HouseHoldeBudgetApi.Models.Requests;
 using HouseHoldeBudgetApi.Repositories;
 using HouseHoldeBudgetApi.Services.Email;
 using HouseHoldeBudgetApi.Services.Hash;
@@ -126,7 +130,10 @@ public static class Di
         services.AddTransient<RegisterUserRequestModelMapper>();
         services.AddTransient<CodigoUsuarioModelMapper>();
         services.AddTransient<ResetUserPasswordRequestModelMapper>();
-
+        services.AddTransient<PessoaModelMapper>();
+        services.AddTransient<CategoriaModelMapper>();
+        services.AddTransient<TransacaoModelMapper>();
+        
         return services;
     }
     /// <summary>
@@ -140,6 +147,9 @@ public static class Di
         services.AddScoped<IValidator<ConfirmUserEmailRequestModel>, ConfirmUserEmailRequestModelValidator>();
         services.AddScoped<IValidator<ResetUserPasswordRequestModel>, ResetUserPasswordRequestModelValidator>();
         services.AddScoped<IValidator<UpdateUserRequestModel>, UpdateUserRequestModelValidator>();
+        services.AddScoped<IValidator<CreatePessoaRequestModel>, CreatePessoaRequestModelValidator>();
+        services.AddScoped<IValidator<CreateCategoriaRequestModel>, CreateCategoriaRequestModelValidator>();
+        services.AddScoped<IValidator<CreateTransacaoRequestModel>, CreateTransacaoRequestModelValidator>();
         
         return services;
     }
@@ -178,6 +188,11 @@ public static class Di
         services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
         services.AddScoped<ICodigoUsuarioRepository, CodigoUsuarioRepository>();
         services.AddScoped<ITopicoDiscussaoRepository,TopicoDiscussaoRepository>();
+        services.AddScoped<IPessoaRepository, PessoaRepository>();
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+        services.AddScoped<IRelatorioRepository, RelatorioRepository>();
+        
         return services;
     }
     /// <summary>
@@ -188,8 +203,12 @@ public static class Di
     {
         services.AddScoped<IUsuarioController, UsuarioController>();
         services.AddScoped<IAuthController, AuthController>();
-        services.AddScoped<ITransactionsController, TransactionsController>();
         services.AddScoped<IUtilsController, UtilsController>();
+        services.AddScoped<IPessoaController, PessoaController>();
+        services.AddScoped<ICategoriaController, CategoriaController>();
+        services.AddScoped<ITransacaoController, TransacaoController>();
+        services.AddScoped<IRelatorioController, RelatorioController>();
+        
         return services;
     }
     
