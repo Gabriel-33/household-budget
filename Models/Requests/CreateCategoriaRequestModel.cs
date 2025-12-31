@@ -1,3 +1,5 @@
+using HouseholdBudgetApi.Models;
+
 namespace HouseHoldeBudgetApi.Models.Requests;
 
 /// <summary>

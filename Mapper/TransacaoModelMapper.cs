@@ -1,3 +1,4 @@
+using HouseholdBudgetApi.Models;
 using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Requests;
 using HouseHoldeBudgetApi.Models.Responses;

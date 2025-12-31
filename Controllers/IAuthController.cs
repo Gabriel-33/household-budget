@@ -1,7 +1,6 @@
 using HouseHoldeBudgetApi.Repositories;
 using HouseHoldeBudgetApi.Services.Jwt;
 using HouseHoldeBudgetApi.Validators;
-using HouseHoldeBudgetApi.Exceptions;
 using HouseHoldeBudgetApi.Models;
 
 namespace HouseHoldeBudgetApi.Controllers;

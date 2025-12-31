@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HouseholdBudgetApi.Models;
+using Microsoft.EntityFrameworkCore;
 using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Services;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global

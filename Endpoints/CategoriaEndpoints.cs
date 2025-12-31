@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HouseholdBudgetApi.Controllers;
 using HouseholdBudgetApi.Exceptions;
+using HouseholdBudgetApi.Models;
 using HouseholdBudgetApi.Summaries;
 using HouseHoldeBudgetApi.Exceptions;
 using HouseHoldeBudgetApi.Middlewares.Auth;

@@ -1,5 +1,6 @@
 // Validators/CreateCategoriaRequestModelValidator.cs
 using FluentValidation;
+using HouseholdBudgetApi.Models;
 using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Requests;
 

@@ -1,9 +1,9 @@
 // Controllers/CategoriaController.cs
 using FluentValidation;
 using FluentValidation.Results;
+using HouseholdBudgetApi.Models;
 using HouseholdBudgetApi.Repositories;
 using HouseHoldeBudgetApi.Mapper;
-using HouseHoldeBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Requests;
 using HouseHoldeBudgetApi.Models.Responses;
 using ILogger = Serilog.ILogger;

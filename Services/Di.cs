@@ -199,29 +199,4 @@ public static class Di
         
         return services;
     }
-    
-    public static IServiceCollection AddSupabaseStorage(this IServiceCollection services, IConfiguration configuration)
-    {
-        var url = EnvVars.GetSupabaseUrl();
-        var key = EnvVars.GetSupabaseKey();
-        
-        if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(key))
-        {
-            throw new ArgumentException("Supabase URL and Key must be configured in appsettings.json");
-        }
-
-        // Configurar o cliente Supabase
-        services.AddScoped(provider =>
-        {
-            var options = new SupabaseOptions
-            {
-                AutoConnectRealtime = false,
-                AutoRefreshToken = true
-            };
-
-            return new Client(url, key, options);
-        });
-
-        return services;
-    }
 }

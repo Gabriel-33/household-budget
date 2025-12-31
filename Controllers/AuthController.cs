@@ -27,7 +27,7 @@ public class AuthController : IAuthController
     private ILogger logger { get; }
 
     public AuthController(IUsuarioRepository usuarioRepository, UsuarioModelMapper usuarioModelMapper,
-        RegisterUserRequestModelMapper registerUserRequestModelMapper,
+        RegisterUserRequestModelMapper registerUserRequestModelMapper, IJwtService jwtService, IHashService hashService,
         IValidator<RegisterUserRequestModel> registerUserRequestModelValidator, IValidator<UserLoginRequestModel> userLoginRequestModelValidator,
         ILogger logger)
     {

@@ -1,5 +1,6 @@
 // Controllers/ICategoriaController.cs
-using HouseHoldeBudgetApi.Models;
+
+using HouseholdBudgetApi.Models;
 using HouseHoldeBudgetApi.Models.Requests;
 using HouseHoldeBudgetApi.Models.Responses;
 

@@ -23,8 +23,7 @@ builder.Services
     .AddServicesConfiguration(builder.Configuration)
     .ConfigureServices()
     .AddOtMetrics()
-    .AddCustomCors(builder.Configuration)
-    .AddSupabaseStorage(builder.Configuration);
+    .AddCustomCors(builder.Configuration);
 
 builder.Services.AddStorageServices()
     .AddLocalServices()

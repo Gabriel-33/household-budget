@@ -1,5 +1,6 @@
 // Repositories/ICategoriaRepository.cs
 
+using HouseholdBudgetApi.Models;
 using HouseHoldeBudgetApi.Models;
 
 namespace HouseholdBudgetApi.Repositories;

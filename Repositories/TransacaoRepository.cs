@@ -1,4 +1,6 @@
 // Repositories/TransacaoRepository.cs
+
+using HouseholdBudgetApi.Models;
 using Microsoft.EntityFrameworkCore;
 using HouseHoldeBudgetApi.Context;
 using HouseHoldeBudgetApi.Models;

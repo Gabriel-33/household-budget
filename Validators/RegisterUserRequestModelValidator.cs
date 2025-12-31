@@ -19,17 +19,5 @@ public class RegisterUserRequestModelValidator : AbstractValidator<RegisterUserR
             .NotEmpty()
             .MinimumLength(8)
             .MaximumLength(20);
-        RuleFor(m => m.matricula)
-            .NotNull()
-            .Length(6);
-        RuleFor(m => m.role)
-            .IsInEnum();
-        RuleFor(m => m.codeCurso)
-            .NotNull()
-            .GreaterThan(0);
-        RuleFor(m => m.imagem)
-            .NotNull()
-            .NotEmpty()
-            .When(m => m.imagem is not null);
     }
 }
