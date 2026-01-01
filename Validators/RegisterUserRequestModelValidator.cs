@@ -4,20 +4,21 @@ using HouseHoldeBudgetApi.Validators.CustomValidators;
 
 namespace HouseHoldeBudgetApi.Validators;
 
+/// <summary>
+/// Validator para o modelo de criação de usuário.
+/// </summary>
 public class RegisterUserRequestModelValidator : AbstractValidator<RegisterUserRequestModel>
 {
     public RegisterUserRequestModelValidator()
     {
         RuleFor(m => m.username)
-            .NotNull()
-            .NotEmpty()
-            .MaximumLength(45);
+            .NotEmpty().WithMessage("Username é obrigatório")
+            .MaximumLength(45).WithMessage("Username não pode ter mais de 45 caracteres");
         RuleFor(m => m.email)
-            .NotNull();
+            .NotNull().WithMessage("Username é obrigatório");
         RuleFor(m => m.password)
-            .NotNull()
-            .NotEmpty()
-            .MinimumLength(8)
-            .MaximumLength(20);
+            .NotEmpty().WithMessage("Password é obrigatório")
+            .MinimumLength(8).WithMessage("Password não pode ter menos de 8 caracteres")
+            .MaximumLength(20).WithMessage("Password não pode ter mais de 20 caracteres");;
     }
 }

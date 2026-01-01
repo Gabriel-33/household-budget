@@ -4,7 +4,7 @@ namespace HouseHoldeBudgetApi.Utils;
 
 internal static class EnvVars
 {
-    //TODO: Move the API Key too
+    //CONFIGURAÇÃO DE VÁRIAVEIS DE AMBIENTE
     private const string API_KEY = "API_KEY";
     private const string POSTGRES_CONNECTION_STRING = "POSTGRES_CONNECTION_STRING";
     private const string JWT_KEY = "JWT_KEY";

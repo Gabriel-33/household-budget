@@ -18,6 +18,9 @@ ILogger serilog = new LoggerConfiguration()
 builder.Logging.ClearProviders().AddSerilog(serilog);
 builder.Host.UseSerilog(serilog);
 
+// ========================================
+// 1. ADICIONANDO SERVIÇOS, PROVENIENTES DE DI.CS
+// ========================================
 builder.Services
     .AddApiMetadata()
     .AddServicesConfiguration(builder.Configuration)
@@ -43,10 +46,9 @@ if (app.Environment.IsDevelopment())
 }
 
 // ========================================
-// 3. CORS
+// 2. CONFIGURANDO CORS
 // ========================================
 app.UseCors(CorsPoliciesName.ALLOW_ALL_CORS_POLICY);
-
 
 app.MapPrometheusScrapingEndpoint();
 
@@ -57,7 +59,7 @@ app.UseStaticFiles();
 
 
 // ========================================
-// Endpoints
+// 4 Endpoints NO MODELO ROUTEGROUOBUILDER
 // ========================================
 RouteGroupBuilder authGroup = app.MapGroup("auth")
     .AddEndpointFilter<ApiKeyFilter>()

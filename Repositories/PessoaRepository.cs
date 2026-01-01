@@ -60,6 +60,7 @@ public class PessoaRepository : IPessoaRepository
     {
         var result = await inDbContext.Pessoas
             .AsNoTracking()
+            .Include(p => p.Transacoes)
             .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

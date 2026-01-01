@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using HouseHoldeBudgetApi.Models.Enums;
 
 namespace HouseHoldeBudgetApi.Models;
-
+/// <summary>
+/// Representa um usuário no sistema de gastos
+/// </summary>
 [Table("usuario")]
 public class UsuarioModel
 {

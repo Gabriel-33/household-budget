@@ -5,7 +5,7 @@ using HouseHoldeBudgetApi.Models.Requests;
 namespace HouseholdBudgetApi.Validators;
 
 /// <summary>
-/// Validador para o modelo de criação de transação.
+/// Validator para o modelo de criação de transação.
 /// </summary>
 public class CreateTransacaoRequestModelValidator : AbstractValidator<CreateTransacaoRequestModel>
 {

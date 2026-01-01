@@ -2,7 +2,7 @@
 using HouseHoldeBudgetApi.Models.Enums;
 
 namespace HouseHoldeBudgetApi.Services.Jwt.Models;
-
+//PAYLOAD GERATO NO JWT, COM ID DO USUÁRIO E ROLE COMO PARAMÊTROS SEMENTE
 public record JwtPayload(string userId, UserRole role)
 {
     public ClaimsIdentity CreateClaimsIdentity()

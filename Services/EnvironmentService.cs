@@ -1,5 +1,6 @@
 ﻿namespace HouseHoldeBudgetApi.Services;
 
+//MODEL QUE REPRESENTA DADOS DE VARIÁVEIS DE AMBIENTE
 public class EnvironmentService
 {
     public required string apiKey { get; init; }

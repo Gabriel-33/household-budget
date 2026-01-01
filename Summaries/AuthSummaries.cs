@@ -58,20 +58,4 @@ public static class AuthSummaries
             }}
         }
     };
-    
-    public static OpenApiOperation AuthRequesResetPasswordSpecification(OpenApiOperation oap) => new(oap)
-    {
-        Summary = "Requisita um código de recuperação de senha para o email do usuário.",
-        Responses = new()
-        {
-            {"200", new()
-            {
-                Description = "Código de recuperação de senha enviado com sucesso."
-            }},
-            {"400/503", new()
-            {
-                Description = "Erro ao enviar email de recuperação de senha."
-            }}
-        }
-    };
 }

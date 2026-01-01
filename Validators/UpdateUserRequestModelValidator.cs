@@ -4,6 +4,9 @@ using HouseHoldeBudgetApi.Validators.CustomValidators;
 
 namespace HouseHoldeBudgetApi.Validators;
 
+/// <summary>
+/// Validator para o modelo de criação de usuário.
+/// </summary>
 public class UpdateUserRequestModelValidator : AbstractValidator<UpdateUserRequestModel>
 {
     public UpdateUserRequestModelValidator()

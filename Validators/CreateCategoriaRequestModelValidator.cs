@@ -7,7 +7,7 @@ using HouseHoldeBudgetApi.Models.Requests;
 namespace HouseholdBudgetApi.Validators;
 
 /// <summary>
-/// Validador para o modelo de criação de categoria no sistema de gastos.
+/// Validator para o modelo de criação de categoria no sistema de gastos.
 /// </summary>
 public class CreateCategoriaRequestModelValidator : AbstractValidator<CreateCategoriaRequestModel>
 {
