@@ -7,7 +7,7 @@ networks:
 
 services:
   api:
-    container_name: household-budget_api
+    container_name: householde-budget_api
     build:
       context: .
       dockerfile: Dockerfile
