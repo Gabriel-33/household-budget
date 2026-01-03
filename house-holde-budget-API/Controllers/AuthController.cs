@@ -59,8 +59,13 @@ public class AuthController : IAuthController
             .ValidateAsync(registerUserRequestModel);
         if (!validationResult.IsValid)
         {
-            ValidationException exception = new(validationResult.Errors
-                .Select(e => e.ErrorMessage).ToString());
+            var errorMessages = validationResult.Errors
+                .Select(e => e.ErrorMessage).ToList();
+                            
+            // Concatena todas as mensagens
+            var errorMessage = string.Join("; ", errorMessages);
+            
+            ValidationException exception = new(errorMessage);
             logger.Error(exception, "Validation issues");
             throw exception;
         }
