@@ -84,6 +84,47 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (credentials) => {
+    try {
+      console.log('Tentando registrar com:', credentials);
+      const data = await authService.register(credentials);
+      
+      if (data.token) {
+        // Atualiza o estado do usuário com as informações que temos
+        setUser(data.user);
+        
+        // Redireciona para a página inicial
+        setTimeout(() => {
+          navigate('/', { replace: true });
+        }, 100);
+        
+        return { success: true, user: data.user };
+      } else {
+        return { success: false, error: 'Token não recebido' };
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      
+      let errorMessage = 'Erro ao fazer login';
+      
+      if (error.response) {
+        // O servidor respondeu com um status de erro
+        const errorData = error.response.data;
+        errorMessage = errorData?.message || 
+                      errorData?.errors?.[0] || 
+                      `Erro ${error.response.status}: ${error.response.statusText}`;
+      } else if (error.request) {
+        // A requisição foi feita mas não houve resposta
+        errorMessage = 'Servidor não respondeu. Verifique sua conexão.';
+      } else {
+        // Algo aconteceu na configuração da requisição
+        errorMessage = error.message;
+      }
+      
+      return { success: false, error: errorMessage };
+    }
+  };
+
   const logout = () => {
     authService.logout();
     setUser(null);
@@ -98,7 +139,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ 
       user, 
-      login, 
+      login,
+      register, 
       logout, 
       updateUser,
       isAuthenticated: !!user,

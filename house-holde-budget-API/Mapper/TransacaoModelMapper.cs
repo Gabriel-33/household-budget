@@ -84,14 +84,12 @@ public class TransacaoModelMapper
 
         return new Transacao
         {
-            Descricao = request.Descricao.Trim(),
-            Valor = request.Valor,
-            Tipo = request.Tipo,
-            PessoaId = pessoa.Id,
-            CategoriaId = categoria.Id,
-            Data = DateTime.UtcNow,
-            Pessoa = pessoa,
-            Categoria = categoria
+             Descricao = request.Descricao.Trim(),
+             Valor = request.Valor,
+             Tipo = request.Tipo,
+             PessoaId = request.PessoaId,  // Apenas o ID
+             CategoriaId = request.CategoriaId, // Apenas o ID
+             Data = DateTime.UtcNow
         };
     }
 }

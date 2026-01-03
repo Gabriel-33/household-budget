@@ -41,8 +41,24 @@ const CategoriasList = () => {
         return cat.finalidade === finalidadeNum;
       });
 
-  if (loading) return <div>Carregando categorias...</div>;
-  if (error) return <div className="error-message">{error}</div>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Carregando relatório...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <h3>Erro ao carregar relatório</h3>
+        <p>{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="categorias-container">
