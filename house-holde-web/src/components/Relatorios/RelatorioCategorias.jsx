@@ -144,7 +144,7 @@ const RelatorioCategorias = () => {
             <select 
               value={filtroTipo} 
               onChange={(e) => setFiltroTipo(e.target.value)}
-              className="select-filtro"
+              className="select-ordenacao"
               disabled={relatorioFiltrado.length === 0}
             >
               <option value="todas">Todas as categorias</option>
@@ -165,10 +165,10 @@ const RelatorioCategorias = () => {
               <option value="despesas">Ordenar por Despesas</option>
             </select>
             
-            <button onClick={loadData} className="btn-secondary">
+          </div>
+          <button onClick={loadData} className="btn-secondary">
               Atualizar
             </button>
-          </div>
         </div>
       </div>
 
