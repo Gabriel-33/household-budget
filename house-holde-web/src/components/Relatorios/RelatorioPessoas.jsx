@@ -212,9 +212,9 @@ const RelatorioPessoas = () => {
                     <td className="negativo">{formatters.formatCurrency(totalDespesas)}</td>
                     <td className={status}>{formatters.formatCurrency(saldo)}</td>
                     <td>
-                      <span className={`status-badge ${status}`}>
-                        {status === 'positivo' ? 'Positivo' : 'Negativo'}
-                      </span>
+                      <p className={`valor ${saldoGeral >= 0 ? 'positivo' : 'negativo'}`}>
+                        {saldoGeral >= 0 ? 'positivo' : 'negativo'}
+                      </p>
                     </td>
                   </tr>
                 );
