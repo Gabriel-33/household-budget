@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyLabAPI", "StudyLabAPI.csproj", "{9D8F1DB4-0FE7-47A7-AB03-FE93BEE18486}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyLabAPI.Test", "StudyLabAPI.Test\StudyLabAPI.Test.csproj", "{441BC545-D098-4954-9668-CA8B154BD805}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldeBudgetApi", "HouseHoldeBudgetApi.csproj", "{9D8F1DB4-0FE7-47A7-AB03-FE93BEE18486}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
