@@ -45,5 +45,11 @@
 	<ItemGroup>
 	  <Folder Include="wwwroot\" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="load_test\package-lock.json" />
+	  <_ContentIncludedByDefault Remove="load_test\package.json" />
+	  <_ContentIncludedByDefault Remove="load_test\tsconfig.json" />
+	</ItemGroup>
 
 </Project>
