@@ -1,0 +1,202 @@
+using FluentValidation;
+using HouseholdBudgetApi.Controllers;
+using HouseholdBudgetApi.Repositories;
+using HouseholdBudgetApi.Validators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using HouseHoldeBudgetApi.Context;
+using HouseHoldeBudgetApi.Controllers;
+using HouseHoldeBudgetApi.Mapper;
+using HouseHoldeBudgetApi.Middlewares.Auth;
+using HouseHoldeBudgetApi.Middlewares.Swagger;
+using HouseHoldeBudgetApi.Models;
+using HouseHoldeBudgetApi.Models.Options;
+using HouseHoldeBudgetApi.Models.Requests;
+using HouseHoldeBudgetApi.Repositories;
+using HouseHoldeBudgetApi.Services.Hash;
+using HouseHoldeBudgetApi.Services.Jwt;
+using HouseHoldeBudgetApi.Utils;
+using HouseHoldeBudgetApi.Validators;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Supabase;
+
+namespace HouseHoldeBudgetApi.Services;
+
+public static class Di
+{
+    /// <summary>
+    /// Adiciona as configurações de serviços a partir do arquivo de
+    /// configuração correspondente ao ambiente de execução.
+    /// </summary>
+    /// <param name="configuration">Gerenciador de configuração do <see cref="WebApplicationBuilder"/></param>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddServicesConfiguration(this IServiceCollection services, 
+        IConfiguration configuration)
+    {
+        services.Configure<JwtParametersOptions>(
+            configuration.GetSection(JwtParametersOptions.JWT_PARAMETERS));
+        services.Configure<Argon2HashParametersOptions>(
+            configuration.GetSection(Argon2HashParametersOptions.HASH_PARAMETERS));
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona classes de configurações criadas a partir de <see cref="IConfigureOptions{TOptions}"/>
+    /// ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    {
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfiguration>();
+        services.AddTransient<IConfigureOptions<JwtBearerOptions>, AuthenticationJwtBearerConfiguration>();
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona serviços para exportação de métricas ao container de DI, usando o OpenTelemetry.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddOtMetrics(this IServiceCollection services)
+    {
+        services.AddOpenTelemetry()
+            .ConfigureResource(b =>
+            {
+                b.AddService("HouseHoldeBudgetAPI");
+            })
+            .WithTracing(t =>
+            {
+                t.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation()
+                    .AddOtlpExporter();
+            })
+            .WithMetrics(m =>
+            {
+                m.AddAspNetCoreInstrumentation()
+                    .AddHttpClientInstrumentation()
+                    .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation()
+                    .AddPrometheusExporter();
+            });
+
+        return services;
+    }
+    /// <summary>
+    /// Adiciona metadados para geração de código.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddApiMetadata(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        return services;
+    }
+    /// <summary>
+    /// Adiciona serviços de armazenamento de dados ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddStorageServices(this IServiceCollection services)
+    {
+        services.AddDbContextFactory<AppDbContext>();
+        services.AddDbContext<AppDbContext>();
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona serviços criados localmente (na solução) ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddLocalServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IJwtService, JwtService>();
+        services.AddSingleton<IHashService, ArgonHashService>();
+        services.AddSingleton<EnvironmentService>(_ => 
+            EnvVars.CreateEnvironmentServiceFromVariables());
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona mapeadores de objetos ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddMappers(this IServiceCollection services)
+    {
+        services.AddTransient<UsuarioModelMapper>();
+        services.AddTransient<RegisterUserRequestModelMapper>();
+        services.AddTransient<PessoaModelMapper>();
+        services.AddTransient<CategoriaModelMapper>();
+        services.AddTransient<TransacaoModelMapper>();
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona validadores de modelos ao container de DI
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddScoped<IValidator<RegisterUserRequestModel>, RegisterUserRequestModelValidator>();
+        services.AddScoped<IValidator<UserLoginRequestModel>, UserLoginRequestModelValidator>();
+        services.AddScoped<IValidator<UpdateUserRequestModel>, UpdateUserRequestModelValidator>();
+        services.AddScoped<IValidator<CreatePessoaRequestModel>, CreatePessoaRequestModelValidator>();
+        services.AddScoped<IValidator<CreateCategoriaRequestModel>, CreateCategoriaRequestModelValidator>();
+        services.AddScoped<IValidator<CreateTransacaoRequestModel>, CreateTransacaoRequestModelValidator>();
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona e configura autenticação e autorização.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddAuth(this IServiceCollection services)
+    {
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AuthorizationPolicies.REQUIRE_IDENTIFIER_AND_USER_ROLE,
+                AuthorizationPolicies.RequireIdentifierAndUserRole);
+            options.AddPolicy(AuthorizationPolicies.REQUIRE_IDENTIFIER_AND_ADMIN_ROLE,
+                AuthorizationPolicies.RequireIdentifierAndAdminRole);
+        });
+        
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer();
+        return services;
+    }
+    /// <summary>
+    /// Adiciona repositórios de acesso a dados ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddApiRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+        services.AddScoped<IPessoaRepository, PessoaRepository>();
+        services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+        services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+        services.AddScoped<IRelatorioRepository, RelatorioRepository>();
+        
+        return services;
+    }
+    /// <summary>
+    /// Adiciona controladores dos endpoints da API ao container de DI.
+    /// </summary>
+    /// <returns><see cref="IServiceCollection"/> para que outras chamadas possam ser encadeadas.</returns>
+    public static IServiceCollection AddApiControllers(this IServiceCollection services)
+    {
+        services.AddScoped<IUsuarioController, UsuarioController>();
+        services.AddScoped<IAuthController, AuthController>();
+        services.AddScoped<IUtilsController, UtilsController>();
+        services.AddScoped<IPessoaController, PessoaController>();
+        services.AddScoped<ICategoriaController, CategoriaController>();
+        services.AddScoped<ITransacaoController, TransacaoController>();
+        services.AddScoped<IRelatorioController, RelatorioController>();
+        
+        return services;
+    }
+}
