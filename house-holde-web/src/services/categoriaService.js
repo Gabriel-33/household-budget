@@ -1,5 +1,5 @@
 import api from './api';
-
+//classe destinada à realizar operações para a entidade categória.
 export const categoriaService = {
   async getAll() {
     try {
@@ -12,6 +12,7 @@ export const categoriaService = {
     }
   },
 
+  //lista categórias por finalidade(despesa,receita ou ambas)
   async getByFinalidade(finalidade) {
     try {
       // finalidade como número: 0 = despesa, 1 = receita, 2 = ambas
@@ -23,6 +24,7 @@ export const categoriaService = {
     }
   },
 
+  //cria uma nova categória
   async create(categoria) {
     try {
       // finalidade como número: 0 = despesa, 1 = receita, 2 = ambas
@@ -39,6 +41,7 @@ export const categoriaService = {
     }
   },
 
+  //deleta uma categória
   async deleteCategorias(id) {
     try {
       const response = await api.delete(`/categorias/${id}`);
@@ -49,6 +52,7 @@ export const categoriaService = {
     }
   },
 
+  //mapeia uma categória, para índice númerico
   mapFinalidadeToNumber(finalidadeString) {
     const map = {
       'despesa': 0,
@@ -58,6 +62,7 @@ export const categoriaService = {
     return map[finalidadeString] || 0; // default para despesa
   },
 
+  //mapeia uma categória, para índice string
   mapFinalidadeToString(finalidadeNumber) {
     const map = {
       0: 'Despesa',

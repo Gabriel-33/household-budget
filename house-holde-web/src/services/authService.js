@@ -1,5 +1,6 @@
 import api from './api';
 
+//classe relacionada à autenticação de usuários
 export const authService = {
   async login(credentials) {
     console.log('Enviando login:', credentials);
@@ -49,6 +50,7 @@ export const authService = {
     }
   },
 
+  //registra um novo usuário no sistema
   async register(credentials) {
     console.log('Enviando login:', credentials);
     
@@ -99,17 +101,20 @@ export const authService = {
     }
   },
 
+  //encerra a sessão do usuário, apagando também dados relacionados do navegador.
   logout() {
     console.log('Logout executado');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   },
 
+  //pega informações do usuário logado.
   getCurrentUser() {
     const user = localStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   },
 
+  //verifica se o usuário está autenticado no sistema.
   isAuthenticated() {
     return !!localStorage.getItem('token');
   }

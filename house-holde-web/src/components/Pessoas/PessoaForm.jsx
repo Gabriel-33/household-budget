@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { pessoaService } from '../../services/pessoaService';
 
 const PessoaForm = ({ onSuccess, onCancel }) => {

@@ -1,3 +1,4 @@
+//classe com objetivo de válidar campos de formulários com regex
 export const validators = {
   required: (value) => !value ? 'Campo obrigatório' : null,
   

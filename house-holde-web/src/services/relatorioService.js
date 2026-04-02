@@ -1,5 +1,6 @@
 import api from './api';
 
+//classe destinada à trazer relatórios de transações, por pessoa e categória
 export const relatorioService = {
   async getRelatorioPessoas() {
     try {
@@ -12,6 +13,7 @@ export const relatorioService = {
     }
   },
 
+  //retorna transações por categória
   async getRelatorioCategorias() {
     try {
       const response = await api.get('/relatorios/categorias');

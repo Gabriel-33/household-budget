@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -15,8 +15,7 @@ import {
   Category,
   Receipt,
   TrendingUp,
-  TrendingDown,
-  Add
+  TrendingDown
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { pessoaService } from '../../services/pessoaService';

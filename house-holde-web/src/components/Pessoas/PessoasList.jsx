@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { pessoaService } from '../../services/pessoaService';
 import PessoaCard from './PessoaCard';
 import PessoaForm from './PessoaForm';

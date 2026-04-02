@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { categoriaService } from '../../services/categoriaService';
 import CategoriaForm from './CategoriaForm';
 import { formatters } from '../../utils/formatters';

@@ -1,5 +1,6 @@
 import api from './api';
 
+//classe destinada à serviços da entidade pessoa.
 export const pessoaService = {
   async getAll(page = 1, pageSize = 50) {
     try {
@@ -23,6 +24,7 @@ export const pessoaService = {
     }
   },
 
+  //cadastra uma pessoa no sistema
   async create(pessoa) {
     try {
       const response = await api.post('/pessoas', pessoa);
@@ -33,6 +35,7 @@ export const pessoaService = {
     }
   },
 
+  //exclui uma pessoa do sistema
   async delete(id) {
     try {
       const response = await api.delete(`/pessoas/${id}`);

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
       const data = await authService.login(credentials);
       
       if (data.token) {
-        // Atualiza o estado do usuário com as informações que temos
+        // Atualiza o estado do usuário com as informações da API
         setUser(data.user);
         
         // Redireciona para a página inicial
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
       const data = await authService.register(credentials);
       
       if (data.token) {
-        // Atualiza o estado do usuário com as informações que temos
+        // Atualiza o estado do usuário com as informações da API
         setUser(data.user);
         
         // Redireciona para a página inicial

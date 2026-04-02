@@ -1,8 +1,8 @@
 import axios from 'axios';
-
-// Configuração da API
-const API_URL = process.env.REACT_APP_API_URL || 'https://household-budget-api.onrender.com';
-const API_KEY = process.env.REACT_APP_API_KEY || 'e24dd2210803b4737a9bd9e3163a4ca807b63201c3bc32b68fb122ca52efff36';
+import { constants } from '../utils/constants';
+// Configuração da API. Url da api e api-key
+const API_URL = constants.API_URL;
+const API_KEY = constants.API_KEY;
 
 const api = axios.create({
   baseURL: API_URL,

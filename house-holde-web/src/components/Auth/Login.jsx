@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import '../../styles/Auth.css';
 
+//componente responsável por formulário de login e requisição de login para a API
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const Login = () => {
     setError('');
   };
 
+  //envia email e senha para a API, recebe resposta e redireciona user para dash, quando autenticado.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -84,6 +86,7 @@ const Login = () => {
     }
   }, [error]);
 
+  //formulário de login
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -152,21 +155,9 @@ const Login = () => {
           )}
 
           <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Entrando...' : (isLogin ? 'Entrar' : 'Registrar')}
+            {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
-
-        <div className="auth-footer">
-          <button
-            type="button"
-            onClick={() => setIsLogin(!isLogin)}
-            className="btn-link"
-          >
-            {isLogin 
-              ? 'Não tem uma conta? Registre-se' 
-              : 'Já tem uma conta? Faça login'}
-          </button>
-        </div>
       </div>
     </div>
   );

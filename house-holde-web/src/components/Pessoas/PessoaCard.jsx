@@ -1,5 +1,3 @@
-import React from 'react';
-
 const PessoaCard = ({ pessoa, onDelete }) => {
   return (
     <div className="pessoa-card">

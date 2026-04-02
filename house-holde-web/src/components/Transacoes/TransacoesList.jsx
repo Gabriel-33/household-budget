@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { transacaoService } from '../../services/transacaoService';
 import { pessoaService } from '../../services/pessoaService';
 import { categoriaService } from '../../services/categoriaService';
@@ -126,7 +126,7 @@ const TransacoesList = () => {
   if (error) {
     return (
       <div className="error-container">
-        <div className="error-icon">⚠️</div>
+        <div className="error-icon">*</div>
         <h3>Erro ao carregar dados</h3>
         <p>{error}</p>
         <button onClick={deleteTransaction} className="btn-primary">

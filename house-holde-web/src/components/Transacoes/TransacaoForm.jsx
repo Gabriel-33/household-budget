@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { transacaoService } from '../../services/transacaoService';
 import { pessoaService } from '../../services/pessoaService';
 import { categoriaService } from '../../services/categoriaService';
@@ -75,6 +75,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
     }
   }, [formData.pessoaId, pessoas]);
 
+  //valida os campos do forumulário
   const validateForm = () => {
     const newErrors = {};
     
@@ -109,6 +110,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
     }
   };
 
+  //envia o form para o endpoint da API
   const handleSubmit = async (e) => {
     e.preventDefault();
     

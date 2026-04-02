@@ -1,5 +1,6 @@
 import api from './api';
 
+//classe destina à criar transações
 export const transacaoService = {
   async getAll(page = 1, pageSize = 50) {
     try {
@@ -23,6 +24,7 @@ export const transacaoService = {
     }
   },
 
+  //criar uma transação
   async create(transacao) {
     try {
       // A API espera tipo como número: 0 = despesa, 1 = receita
@@ -39,6 +41,7 @@ export const transacaoService = {
     }
   },
   
+  //exclui uma transação
   async deleteTransactions(id) {
     try {
       const response = await api.delete(`/transacoes/deleteTransaction/${id}`);

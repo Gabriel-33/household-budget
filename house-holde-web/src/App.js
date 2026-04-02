@@ -19,6 +19,7 @@ const LoadingFallback = () => (
   </div>
 );
 
+//componente de login, e componentes de menu em dashboard admin.
 function App() {
   return (
     <Router>

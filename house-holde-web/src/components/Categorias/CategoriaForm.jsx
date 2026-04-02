@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { categoriaService } from '../../services/categoriaService';
 
+//classe de responsável pela entidade de categória
 const CategoriaForm = ({ onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
     descricao: '',
@@ -15,6 +16,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
     { value: 'ambos', label: 'Ambas' }
   ]
 
+  //válida se campos de formulário está corretos
   const validateForm = () => {
     const newErrors = {};
     
@@ -28,6 +30,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  //atualiza o objeto contendo os campos do formulário, a cada alteração no form pelo usuário.
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -43,6 +46,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
     }
   };
 
+  //envia uma requisição para criar uma nova categória, para a API.
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -61,6 +65,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
     }
   };
 
+  //formulário para cadastrar uma nova categória
   return (
     <div className="transacao-form">
       <h3>Cadastrar Nova Categoria</h3>

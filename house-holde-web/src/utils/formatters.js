@@ -1,3 +1,4 @@
+//classe feita para formatar valores de data e monetário, finalidade e categória
 export const formatters = {
   formatCurrency(value) {
     if (value === undefined || value === null) return 'R$ 0,00';
