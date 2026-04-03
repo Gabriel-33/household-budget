@@ -26,14 +26,14 @@ O sistema é dividido em duas partes principais:
 - Gerenciamento de estado com Context API
 - Experiência de usuário otimizada
 
-## 🌐 Sistema Online
+## Sistema Online
 
 O sistema está disponível para teste em:
-**🔗 URL:** [https://house-budget-site.netlify.app/](https://house-budget-site.netlify.app/)
+** URL:** [https://house-budget-site.netlify.app/](https://house-budget-site.netlify.app/)
 
-### 🧪 Credenciais para Teste
+### Credenciais para Teste
 - **Email:** `house_budget`
 - **Senha:** `house_budget`
 
 ## Documentação do swagger Online
-**🔗 URL:** [https://household-budget-api.onrender.com/swagger/index.html]
+** URL:** [https://household-budget-api.onrender.com/swagger/index.html]

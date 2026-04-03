@@ -73,13 +73,14 @@ const PessoasList = () => {
   return (
     <div className="pessoas-container">
       <div className="header">
-        <h2>Cadastro de Pessoas</h2>
-        <button 
-          onClick={() => setShowForm(true)}
-          className="btn-primary"
-        >
-          + Nova Pessoa
-        </button>
+        {!showForm && (
+          <button 
+            onClick={() => setShowForm(true)}
+            className="btn-primary"
+          >
+            + Nova Pessoa
+          </button>
+        )}
       </div>
       
       {showForm ? (

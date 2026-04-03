@@ -68,11 +68,11 @@ const PessoaForm = ({ onSuccess, onCancel }) => {
 
   return (
     <div className="transacao-form">
-      <h3>Cadastrar Nova Pessoa</h3>
+      <h3>CADASTRAR NOVA PESSOA</h3>
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="nome">Nome *</label>
+          <label htmlFor="nome">Nome</label>
           <input
             type="text"
             id="nome"
@@ -85,7 +85,7 @@ const PessoaForm = ({ onSuccess, onCancel }) => {
         </div>
         
         <div className="form-group">
-          <label htmlFor="idade">Idade *</label>
+          <label htmlFor="idade">Idade</label>
           <input
             type="number"
             id="idade"
@@ -101,19 +101,21 @@ const PessoaForm = ({ onSuccess, onCancel }) => {
         
         <div className="form-actions">
           <button 
+            type="submit" 
+            className="btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Salvando...' : 'Salvar'}
+          </button>
+        </div>
+        <div className="form-actions">
+          <button 
             type="button" 
             onClick={onCancel}
             className="btn-secondary"
             disabled={isSubmitting}
           >
             Cancelar
-          </button>
-          <button 
-            type="submit" 
-            className="btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Salvando...' : 'Salvar'}
           </button>
         </div>
       </form>

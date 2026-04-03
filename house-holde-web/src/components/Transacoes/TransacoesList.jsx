@@ -139,14 +139,15 @@ const TransacoesList = () => {
   return (
     <div className="transacoes-container">
       <div className="header">
-        <h2>Transações</h2>
-        <button 
-          onClick={() => setShowForm(true)}
-          className="btn-primary"
-          disabled={loading}
-        >
-          + Nova Transação
-        </button>
+        {!showForm && (
+          <button 
+            onClick={() => setShowForm(true)}
+            className="btn-primary"
+            disabled={loading}
+          >
+            + Nova Transação
+          </button>
+        )}
       </div>
 
       {showForm ? (

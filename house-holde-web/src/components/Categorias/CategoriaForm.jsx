@@ -72,7 +72,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="descricao">Descrição *</label>
+          <label htmlFor="descricao">Descrição</label>
           <input
             type="text"
             id="descricao"
@@ -85,7 +85,7 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
         </div>
         
         <div className="form-group">
-          <label htmlFor="finalidade">Finalidade *</label>
+          <label htmlFor="finalidade">Finalidade</label>
           <select
             id="finalidade"
             name="finalidade"
@@ -102,19 +102,22 @@ const CategoriaForm = ({ onSuccess, onCancel }) => {
         
         <div className="form-actions">
           <button 
+            type="submit" 
+            className="btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Salvando...' : 'Salvar'}
+          </button>
+        </div>
+
+        <div className="form-actions">
+          <button 
             type="button" 
             onClick={onCancel}
             className="btn-secondary"
             disabled={isSubmitting}
           >
             Cancelar
-          </button>
-          <button 
-            type="submit" 
-            className="btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Salvando...' : 'Salvar'}
           </button>
         </div>
       </form>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { categoriaService } from '../../services/categoriaService';
 import CategoriaForm from './CategoriaForm';
 import { formatters } from '../../utils/formatters';
+import { LuShowerHead } from 'react-icons/lu';
 
 const CategoriasList = () => {
   const [categorias, setCategorias] = useState([]);
@@ -67,7 +68,7 @@ const CategoriasList = () => {
   if (error) {
     return (
       <div className="error-container">
-        <div className="error-icon">⚠️</div>
+        <div className="error-icon">!</div>
         <h3>Erro ao carregar relatório</h3>
         <p>{error}</p>
       </div>
@@ -77,13 +78,14 @@ const CategoriasList = () => {
   return (
     <div className="categorias-container">
       <div className="header">
-        <h2>Cadastro de Categorias</h2>
-        <button 
-          onClick={() => setShowForm(true)}
-          className="btn-primary"
-        >
-          + Nova Categoria
-        </button>
+        {!showForm && (
+          <button 
+            onClick={() => setShowForm(true)}
+            className="btn-primary"
+          >
+            + Nova Categoria
+          </button>
+        )}
       </div>
 
       {showForm ? (

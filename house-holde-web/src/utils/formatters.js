@@ -33,6 +33,7 @@ export const formatters = {
     return 'Desconhecido';
   },
 
+  //mapeia o tipo de despesa do número de uma string para um índice númerico
   mapTipoToNumber(tipoString) {
     const map = {
       'despesa': 0,
@@ -41,6 +42,7 @@ export const formatters = {
     return map[tipoString] || 0;
   },
 
+//mapeia o tipo de despesa de um índice númerico para uma string
   mapTipoToString(tipoNumber) {
     const map = {
       0: 'despesa',
@@ -49,11 +51,13 @@ export const formatters = {
     return map[tipoNumber] || 'despesa';
   },
 
+  //retorna a cor ver, caso o tipo seja receita, e vermelho caso seja despesa
   getTipoColor(tipo) {
     if (tipo === 1 || tipo === 'receita') return '#27ae60'; 
     return '#e74c3c'; 
   },
 
+  //retorna a cor ver, caso a finalidade seja receita, vermelho caso seja despesa e azul em caso de ambas
   getFinalidadeColor(finalidade) {
     if (finalidade === 0 || finalidade === 'despesa') return '#e74c3c';
     if (finalidade === 1 || finalidade === 'receita') return '#27ae60';

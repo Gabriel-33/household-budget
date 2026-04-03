@@ -159,7 +159,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="descricao">Descrição *</label>
+          <label htmlFor="descricao">Descrição</label>
           <input
             type="text"
             id="descricao"
@@ -173,7 +173,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
         </div>
         
         <div className="form-group">
-          <label htmlFor="valor">Valor *</label>
+          <label htmlFor="valor">Valor</label>
           <input
             type="number"
             id="valor"
@@ -189,7 +189,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
         </div>
         
         <div className="form-group">
-          <label htmlFor="pessoaId">Pessoa *</label>
+          <label htmlFor="pessoaId">Pessoa</label>
           <select
             id="pessoaId"
             name="pessoaId"
@@ -208,7 +208,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
         </div>
         
         <div className="form-group">
-          <label htmlFor="tipo">Tipo *</label>
+          <label htmlFor="tipo">Tipo</label>
           <select
             id="tipo"
             name="tipo"
@@ -225,7 +225,7 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
         </div>
         
         <div className="form-group">
-          <label htmlFor="categoriaId">Categoria *</label>
+          <label htmlFor="categoriaId">Categoria</label>
           <select
             id="categoriaId"
             name="categoriaId"
@@ -250,19 +250,21 @@ const TransacaoForm = ({ onSuccess, onCancel, pessoas: pessoasProp, categorias: 
         
         <div className="form-actions">
           <button 
+            type="submit" 
+            className="btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Salvando...' : 'Salvar'}
+          </button>
+        </div>
+        <div className="form-actions">
+          <button 
             type="button" 
             onClick={onCancel}
             className="btn-secondary"
             disabled={isSubmitting}
           >
             Cancelar
-          </button>
-          <button 
-            type="submit" 
-            className="btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Salvando...' : 'Salvar'}
           </button>
         </div>
       </form>
