@@ -67,7 +67,7 @@ public class PessoaController : IPessoaController
     /// <summary>
     /// Cria uma nova pessoa no sistema.
     /// </summary>
-    public async Task<PessoaReadModel> CreatePessoa(CreatePessoaRequestModel request)
+    public async Task<PessoaReadModel> CreatePessoa(CreatePessoaRequestModel request, int idUser)
     {
         _logger.Information("Validando requisição para criar pessoa: Nome[{Nome}] Idade[{Idade}]",
             request.Nome, request.Idade);
@@ -80,7 +80,6 @@ public class PessoaController : IPessoaController
             throw exception;
         }
 
-        // Validação adicional para idade
         if (request.Idade < 0 || request.Idade > 150)
         {
             ValidationException exception = new("Idade deve estar entre 0 e 150 anos");
@@ -88,18 +87,28 @@ public class PessoaController : IPessoaController
             throw exception;
         }
 
-        _logger.Information("Criando nova pessoa: Nome[{Nome}]", request.Nome);
+        // Extrai o UsuarioId do token JWT — nunca do body da requisição
+
+        var usuarioId = idUser;
         
+        if (usuarioId == null)
+        {
+            _logger.Error("Token JWT não contém claim de id_usuario válido");
+            throw new UnauthorizedAccessException("Usuário não autenticado.");
+        }
+
+        _logger.Information("Criando nova pessoa: Nome[{Nome}]", request.Nome);
+
         var pessoa = _pessoaModelMapper.CreatePessoaRequestModelToPessoa(request);
+        pessoa.UsuarioId = usuarioId; // injeta após o mapper, sem poluir o request model
 
         await _pessoaRepository.CreatePessoa(pessoa);
         await _pessoaRepository.FlushChanges();
 
-        _logger.Information("Pessoa criada com ID[{Id}]", pessoa.Id);
+        _logger.Information("Pessoa criada com ID[{Id}] para UsuarioId[{UsuarioId}]", pessoa.Id, usuarioId);
 
         return _pessoaModelMapper.PessoaToPessoaReadModel(pessoa);
     }
-
     /// <summary>
     /// Deleta uma pessoa e todas as suas transações (cascade).
     /// </summary>

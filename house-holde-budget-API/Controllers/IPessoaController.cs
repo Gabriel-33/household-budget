@@ -25,7 +25,7 @@ public interface IPessoaController
     /// </summary>
     /// <param name="request">Dados da pessoa a ser criada</param>
     /// <returns>Pessoa criada</returns>
-    Task<PessoaReadModel> CreatePessoa(CreatePessoaRequestModel request);
+    Task<PessoaReadModel> CreatePessoa(CreatePessoaRequestModel request, int idUser);
     
     /// <summary>
     /// Deleta uma pessoa e todas as suas transações (cascade).

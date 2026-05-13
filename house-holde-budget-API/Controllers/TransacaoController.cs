@@ -45,7 +45,7 @@ public class TransacaoController : ITransacaoController
     /// <summary>
     /// Obtém todas as transações com paginação e filtros.
     /// </summary>
-    public async Task<TransacoesListResponse> GetTransacoes(int page, int pageSize, int? pessoaId = null, string? tipo = null)
+    public async Task<TransacoesListResponse> GetTransacoes(int page, int pageSize, int usuarioId, int? pessoaId = null, string? tipo = null)
     {
         _logger.Information("Validando parâmetros de paginação: Page[{Page}] PageSize[{PageSize}] PessoaId[{PessoaId}] Tipo[{Tipo}]",
             page, pageSize, pessoaId, tipo);
@@ -69,7 +69,7 @@ public class TransacaoController : ITransacaoController
         _logger.Information("Recuperando transações: Page[{Page}] PageSize[{PageSize}]", page, pageSize);
 
         (var transacoes, int resultCount, int totalCount) = await _transacaoRepository
-            .GetTransacoesAndCount(page, pageSize, pessoaId, tipo);
+            .GetTransacoesAndCount(page, pageSize,usuarioId, pessoaId, tipo);
 
         var transacoesRead = transacoes
             .Select(_transacaoModelMapper.TransacaoToTransacaoReadModel)

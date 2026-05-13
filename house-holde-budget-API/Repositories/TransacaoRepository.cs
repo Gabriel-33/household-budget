@@ -30,20 +30,20 @@ public class TransacaoRepository : ITransacaoRepository
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    public Task<IList<Transacao>> GetTransacoes(int page, int pageSize, int? pessoaId = null, string? tipo = null) =>
-        GetTransacoes(_dbContext, page, pageSize, pessoaId, tipo);
+    public Task<IList<Transacao>> GetTransacoes(int page, int pageSize, int idUsuario,int? pessoaId = null, string? tipo = null) =>
+        GetTransacoes(_dbContext, page, pageSize, idUsuario, pessoaId, tipo);
 
-    private async Task<IList<Transacao>> GetTransacoesWFactory(int page, int pageSize, int? pessoaId = null, string? tipo = null)
+    private async Task<IList<Transacao>> GetTransacoesWFactory(int page, int pageSize, int usuarioId, int? pessoaId = null, string? tipo = null)
     {
         await using AppDbContext? inDbContext = await _dbContextFactory.CreateDbContextAsync();
 
         if (inDbContext is null)
             throw new("Não foi possível instanciar um novo DbContext");
 
-        return await GetTransacoes(inDbContext, page, pageSize, pessoaId, tipo);
+        return await GetTransacoes(inDbContext, page, pageSize, usuarioId, pessoaId, tipo);
     }
 
-    private async Task<IList<Transacao>> GetTransacoes(AppDbContext inDbContext, int page, int pageSize, int? pessoaId = null, string? tipo = null)
+    private async Task<IList<Transacao>> GetTransacoes(AppDbContext inDbContext, int page, int pageSize,int usuarioId, int? pessoaId = null, string? tipo = null)
     {
         var query = inDbContext.Transacoes
             .AsNoTracking()
@@ -59,7 +59,9 @@ public class TransacaoRepository : ITransacaoRepository
 
         if (!string.IsNullOrEmpty(tipo) && Enum.TryParse<TipoTransacao>(tipo, out var tipoEnum))
             query = query.Where(t => t.Tipo == tipoEnum);
-
+        
+        query = query.Where(t => t.Pessoa.UsuarioId == usuarioId);
+        
         var result = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -68,20 +70,20 @@ public class TransacaoRepository : ITransacaoRepository
         return result;
     }
 
-    public Task<int> GetTransacoesCount(int? pessoaId = null, string? tipo = null) =>
-        GetTransacoesCount(_dbContext, pessoaId, tipo);
+    public Task<int> GetTransacoesCount(int usuarioId, int? pessoaId = null, string? tipo = null) =>
+        GetTransacoesCount(_dbContext, usuarioId, pessoaId, tipo);
 
-    private async Task<int> GetTransacoesCountWFactory(int? pessoaId = null, string? tipo = null)
+    private async Task<int> GetTransacoesCountWFactory(int usuarioId, int? pessoaId = null, string? tipo = null)
     {
         await using AppDbContext? inDbContext = await _dbContextFactory.CreateDbContextAsync();
 
         if (inDbContext is null)
             throw new("Não foi possível instanciar um novo DbContext");
 
-        return await GetTransacoesCount(inDbContext, pessoaId, tipo);
+        return await GetTransacoesCount(inDbContext, usuarioId, pessoaId, tipo);
     }
 
-    private async Task<int> GetTransacoesCount(AppDbContext inDbContext, int? pessoaId = null, string? tipo = null)
+    private async Task<int> GetTransacoesCount(AppDbContext inDbContext, int usuarioId, int? pessoaId = null, string? tipo = null)
     {
         var query = inDbContext.Transacoes.AsQueryable();
 
@@ -90,14 +92,16 @@ public class TransacaoRepository : ITransacaoRepository
 
         if (!string.IsNullOrEmpty(tipo) && Enum.TryParse<TipoTransacao>(tipo, out var tipoEnum))
             query = query.Where(t => t.Tipo == tipoEnum);
-
+        
+        query = query.Where(t => t.Pessoa.UsuarioId == usuarioId);
+        
         return await query.CountAsync();
     }
 
-    public async Task<(IList<Transacao>, int, int)> GetTransacoesAndCount(int page, int pageSize, int? pessoaId = null, string? tipo = null)
+    public async Task<(IList<Transacao>, int, int)> GetTransacoesAndCount(int page, int pageSize,int usuarioId, int? pessoaId = null, string? tipo = null)
     {
-        var transacoesTask = GetTransacoesWFactory(page, pageSize, pessoaId, tipo);
-        var transacoesCountTask = GetTransacoesCountWFactory(pessoaId, tipo);
+        var transacoesTask = GetTransacoesWFactory(page, pageSize, usuarioId, pessoaId, tipo);
+        var transacoesCountTask = GetTransacoesCountWFactory(usuarioId, pessoaId, tipo);
         await Task.WhenAll(transacoesTask, transacoesCountTask);
 
         var result = transacoesTask.Result;

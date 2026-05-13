@@ -28,7 +28,8 @@ public class TransacaoModelMapper
             Tipo = transacao.Tipo,
             Data = transacao.Data,
             CategoriaDescricao = transacao.Categoria?.Descricao ?? "Não informada",
-            PessoaNome = transacao.Pessoa?.Nome ?? "Não informada"
+            PessoaNome = transacao.Pessoa?.Nome ?? "Não informada",
+            IdUsuario = transacao.Pessoa.UsuarioId
         };
     }
 

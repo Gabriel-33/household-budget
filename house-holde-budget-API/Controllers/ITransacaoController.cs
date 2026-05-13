@@ -20,7 +20,7 @@ public interface ITransacaoController
     /// <param name="pessoaId">Filtro opcional por ID da pessoa</param>
     /// <param name="tipo">Filtro opcional por tipo (Despesa/Receita)</param>
     /// <returns>Lista paginada de transações</returns>
-    Task<TransacoesListResponse> GetTransacoes(int page, int pageSize, int? pessoaId = null, string? tipo = null);
+    Task<TransacoesListResponse> GetTransacoes(int page, int pageSize,int usuarioId, int? pessoaId = null, string? tipo = null);
     
     /// <summary>
     /// Cria uma nova transação com validações automáticas.

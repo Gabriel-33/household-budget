@@ -51,6 +51,14 @@ public class Pessoa
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     
     /// <summary>
+    /// Id de usuário associado à pessoa
+    /// </summary>
+    [Required(ErrorMessage = "UsuarioId é obrigatório")]
+    [ForeignKey("Usuario")]
+    [Column("UsuarioId")]
+    public int UsuarioId { get; set; }
+
+    /// <summary>
     /// Lista de transações associadas à pessoa
     /// </summary>
     [InverseProperty("Pessoa")]

@@ -1,4 +1,5 @@
 // Endpoints/TransacaoEndpoints.cs
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using HouseholdBudgetApi.Controllers;
 using HouseholdBudgetApi.Exceptions;
@@ -63,9 +64,12 @@ public static class TransacaoEndpoints
         [FromServices] ITransacaoController controller)
     {
         TransacoesListResponse result;
+        
+        int userId = int.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.Name).Value);
+        
         try
         {
-            result = await controller.GetTransacoes(page, pageSize, pessoaId, tipo);
+            result = await controller.GetTransacoes(page, pageSize, userId, pessoaId, tipo);
         }
         catch (ValidationException e)
         {

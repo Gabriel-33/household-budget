@@ -18,17 +18,17 @@ public interface ITransacaoRepository
     /// <summary>
     /// Obtém transações com paginação e filtros opcionais.
     /// </summary>
-    Task<IList<Transacao>> GetTransacoes(int page, int pageSize, int? pessoaId = null, string? tipo = null);
+    Task<IList<Transacao>> GetTransacoes(int page, int pageSize, int usuarioId, int? pessoaId = null, string? tipo = null);
     
     /// <summary>
     /// Obtém o total de transações com filtros opcionais.
     /// </summary>
-    Task<int> GetTransacoesCount(int? pessoaId = null, string? tipo = null);
+    Task<int> GetTransacoesCount(int usuarioId, int? pessoaId = null, string? tipo = null);
     
     /// <summary>
     /// Obtém transações com contagem total (para paginação).
     /// </summary>
-    Task<(IList<Transacao>, int, int)> GetTransacoesAndCount(int page, int pageSize, int? pessoaId = null, string? tipo = null);
+    Task<(IList<Transacao>, int, int)> GetTransacoesAndCount(int page, int pageSize,int usuarioId, int? pessoaId = null, string? tipo = null);
     
     /// <summary>
     /// Obtém todas as transações com detalhes (include Pessoa e Categoria).

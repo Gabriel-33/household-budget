@@ -39,4 +39,9 @@ public class TransacaoReadModel
     /// Nome da pessoa associada
     /// </summary>
     public string PessoaNome { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// IdUsuario da pessoa associada
+    /// </summary>
+    public int IdUsuario { get; set; }
 }

@@ -1,4 +1,6 @@
 // Endpoints/PessoaEndpoints.cs
+
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using HouseholdBudgetApi.Controllers;
 using HouseholdBudgetApi.Exceptions;
@@ -84,10 +86,12 @@ public static class PessoaEndpoints
         [FromServices] IPessoaController controller)
     {
         PessoaReadModel pessoaCriada;
-
+        
+        int userId = int.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.Name).Value);
+        
         try
         {
-            pessoaCriada = await controller.CreatePessoa(request);
+            pessoaCriada = await controller.CreatePessoa(request, userId);
         }
         catch (ValidationException e)
         {
