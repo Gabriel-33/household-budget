@@ -87,7 +87,10 @@ public static class PessoaEndpoints
     {
         PessoaReadModel pessoaCriada;
         
-        int userId = int.Parse(context.User.Claims.First(c => c.Type == ClaimTypes.Name).Value);
+        var claim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+        
+        if (claim == null || !int.TryParse(claim.Value, out int userId))
+            return Results.Unauthorized();
         
         try
         {

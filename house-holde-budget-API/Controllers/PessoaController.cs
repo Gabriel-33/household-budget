@@ -90,12 +90,6 @@ public class PessoaController : IPessoaController
         // Extrai o UsuarioId do token JWT — nunca do body da requisição
 
         var usuarioId = idUser;
-        
-        if (usuarioId == null)
-        {
-            _logger.Error("Token JWT não contém claim de id_usuario válido");
-            throw new UnauthorizedAccessException("Usuário não autenticado.");
-        }
 
         _logger.Information("Criando nova pessoa: Nome[{Nome}]", request.Nome);
 
