@@ -43,11 +43,11 @@ public class PessoaController : IPessoaController
     /// Obtém todas as pessoas cadastradas com paginação.
     /// </summary>
     // Controllers/PessoaController.cs - Modifique o método GetPessoas
-    public async Task<PessoasListResponse> GetPessoas(int page, int pageSize)
+    public async Task<PessoasListResponse> GetPessoas(int page, int pageSize, int idUser)
     {
         _logger.Information("Recuperando pessoas - Page[{Page}] PageSize[{PageSize}]", page, pageSize);
     
-        (var pessoas, int resultCount, int totalCount) = await _pessoaRepository.GetPessoasAndCount(page, pageSize);
+        (var pessoas, int resultCount, int totalCount) = await _pessoaRepository.GetPessoasAndCount(page, pageSize, idUser);
 
         var pessoasRead = pessoas
             .Select(_pessoaModelMapper.PessoaToPessoaReadModel)

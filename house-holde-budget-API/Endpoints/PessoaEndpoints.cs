@@ -61,9 +61,15 @@ public static class PessoaEndpoints
         [FromServices] IPessoaController controller)
     {
         PessoasListResponse result;
+        
+        var claim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                
+        if (claim == null || !int.TryParse(claim.Value, out int userId))
+            return Results.Unauthorized();
+                
         try
         {
-            result = await controller.GetPessoas(page, pageSize);
+            result = await controller.GetPessoas(page, pageSize, userId);
         }
         catch (Exception e)
         {

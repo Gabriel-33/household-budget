@@ -43,53 +43,52 @@ public class PessoaRepository : IPessoaRepository
             .FirstOrDefaultAsync(p => p.Nome == nome);
     }
 
-    public Task<IList<Pessoa>> GetPessoas(int page, int pageSize) =>
-        GetPessoas(_dbContext, page, pageSize);
+    public Task<IList<Pessoa>> GetPessoas(int page, int pageSize, int usuarioId) =>
+        GetPessoas(_dbContext, page, pageSize, usuarioId);
 
-    private async Task<IList<Pessoa>> GetPessoasWFactory(int page, int pageSize)
+    private async Task<IList<Pessoa>> GetPessoasWFactory(int page, int pageSize, int usuarioId)
     {
         await using AppDbContext? inDbContext = await _dbContextFactory.CreateDbContextAsync();
-
         if (inDbContext is null)
             throw new("Não foi possível instanciar um novo DbContext");
-
-        return await GetPessoas(inDbContext, page, pageSize);
+        return await GetPessoas(inDbContext, page, pageSize, usuarioId);
     }
 
-    private async Task<IList<Pessoa>> GetPessoas(AppDbContext inDbContext, int page, int pageSize)
+    private async Task<IList<Pessoa>> GetPessoas(AppDbContext inDbContext, int page, int pageSize, int usuarioId)
     {
-        var result = await inDbContext.Pessoas
+        return await inDbContext.Pessoas
             .AsNoTracking()
+            .Where(p => p.UsuarioId == usuarioId)   // ← filtro
             .Include(p => p.Transacoes)
             .OrderBy(p => p.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
-
-        return result;
     }
 
-    public Task<int> GetPessoasCount() => GetPessoasCount(_dbContext);
+    public Task<int> GetPessoasCount(int usuarioId) =>
+        GetPessoasCount(_dbContext, usuarioId);
 
-    private async Task<int> GetPessoasCountWFactory()
+    private async Task<int> GetPessoasCountWFactory(int usuarioId)
     {
         await using AppDbContext? inDbContext = await _dbContextFactory.CreateDbContextAsync();
-
         if (inDbContext is null)
             throw new("Não foi possível instanciar um novo DbContext");
-
-        return await GetPessoasCount(inDbContext);
+        return await GetPessoasCount(inDbContext, usuarioId);
     }
 
-    private async Task<int> GetPessoasCount(AppDbContext inDbContext)
+    private async Task<int> GetPessoasCount(AppDbContext inDbContext, int usuarioId)
     {
-        return await inDbContext.Pessoas.CountAsync();
+        return await inDbContext.Pessoas
+            .Where(p => p.UsuarioId == usuarioId)   // ← filtro
+            .CountAsync();
     }
 
-    public async Task<(IList<Pessoa>, int, int)> GetPessoasAndCount(int page, int pageSize)
+    public async Task<(IList<Pessoa>, int, int)> GetPessoasAndCount(int page, int pageSize, int usuarioId)
     {
-        var pessoasTask = GetPessoasWFactory(page, pageSize);
-        var pessoasCountTask = GetPessoasCountWFactory();
+        var pessoasTask = GetPessoasWFactory(page, pageSize, usuarioId);
+        var pessoasCountTask = GetPessoasCountWFactory(usuarioId);
+
         await Task.WhenAll(pessoasTask, pessoasCountTask);
 
         var result = pessoasTask.Result;
@@ -97,10 +96,11 @@ public class PessoaRepository : IPessoaRepository
         return (result, result.Count, totalCount);
     }
 
-    public async Task<List<Pessoa>> GetAllWithTransacoesAsync()
+    public async Task<List<Pessoa>> GetAllWithTransacoesAsync(int usuarioId)
     {
         return await _dbContext.Pessoas
             .AsNoTracking()
+            .Where(p => p.UsuarioId == usuarioId)   // ← filtro
             .Include(p => p.Transacoes)
             .ThenInclude(t => t.Categoria)
             .ToListAsync();

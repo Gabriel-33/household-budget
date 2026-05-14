@@ -30,13 +30,13 @@ public interface IPessoaRepository
     /// <param name="page">Número da página</param>
     /// <param name="pageSize">Itens por página</param>
     /// <returns>Lista de pessoas</returns>
-    Task<IList<Pessoa>> GetPessoas(int page, int pageSize);
+    Task<IList<Pessoa>> GetPessoas(int page, int pageSize, int usuarioId);
     
     /// <summary>
     /// Obtém o total de pessoas cadastradas.
     /// </summary>
     /// <returns>Total de pessoas</returns>
-    Task<int> GetPessoasCount();
+    Task<int> GetPessoasCount(int usuarioId);
     
     /// <summary>
     /// Obtém pessoas com contagem total (para paginação).
@@ -44,13 +44,13 @@ public interface IPessoaRepository
     /// <param name="page">Número da página</param>
     /// <param name="pageSize">Itens por página</param>
     /// <returns>Tupla com lista, contagem da página e total</returns>
-    Task<(IList<Pessoa>, int, int)> GetPessoasAndCount(int page, int pageSize);
+    Task<(IList<Pessoa>, int, int)> GetPessoasAndCount(int page, int pageSize, int usuarioId);
     
     /// <summary>
     /// Obtém todas as pessoas com suas transações incluídas.
     /// </summary>
     /// <returns>Lista de pessoas com transações</returns>
-    Task<List<Pessoa>> GetAllWithTransacoesAsync();
+    Task<List<Pessoa>> GetAllWithTransacoesAsync(int usuarioId);
     
     /// <summary>
     /// Cria uma nova pessoa.

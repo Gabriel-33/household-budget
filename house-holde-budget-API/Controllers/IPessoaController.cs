@@ -18,7 +18,7 @@ public interface IPessoaController
     /// <param name="page">Número da página (começa em 1)</param>
     /// <param name="pageSize">Quantidade de itens por página</param>
     /// <returns>Lista paginada de pessoas</returns>
-    Task<PessoasListResponse> GetPessoas(int page, int pageSize);
+    Task<PessoasListResponse> GetPessoas(int page, int pageSize, int idUser);
     
     /// <summary>
     /// Cria uma nova pessoa no sistema.
