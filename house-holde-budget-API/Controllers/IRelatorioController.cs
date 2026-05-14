@@ -12,11 +12,11 @@ public interface IRelatorioController
     /// Gera relatório de totais por pessoa.
     /// </summary>
     /// <returns>Relatório com totais de receitas, despesas e saldo por pessoa</returns>
-    Task<RelatorioPessoasResponse> GetTotaisPorPessoa();
+    Task<RelatorioPessoasResponse> GetTotaisPorPessoa(int idUser);
     
     /// <summary>
     /// Gera relatório de totais por categoria (opcional).
     /// </summary>
     /// <returns>Relatório com totais de receitas, despesas e saldo por categoria</returns>
-    Task<RelatorioCategoriasResponse> GetTotaisPorCategoria();
+    Task<RelatorioCategoriasResponse> GetTotaisPorCategoria(int idUser);
 }

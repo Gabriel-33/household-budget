@@ -11,15 +11,15 @@ public interface IRelatorioRepository
     /// <summary>
     /// Obtém os totais agrupados por pessoa.
     /// </summary>
-    Task<List<PessoaTotal>> GetTotaisPorPessoaAsync();
+    Task<List<PessoaTotal>> GetTotaisPorPessoaAsync(int usuarioId);
     
     /// <summary>
     /// Obtém os totais agrupados por categoria.
     /// </summary>
-    Task<List<CategoriaTotal>> GetTotaisPorCategoriaAsync();
+    Task<List<CategoriaTotal>> GetTotaisPorCategoriaAsync(int usuarioId);
     
     /// <summary>
     /// Obtém os totais gerais do sistema.
     /// </summary>
-    Task<TotalGeral> GetTotaisGeraisAsync();
+    Task<TotalGeral> GetTotaisGeraisAsync(int usuarioId);
 }

@@ -31,13 +31,13 @@ public class RelatorioController : IRelatorioController
     /// <summary>
     /// Gera relatório de totais por pessoa.
     /// </summary>
-    public async Task<RelatorioPessoasResponse> GetTotaisPorPessoa()
+    public async Task<RelatorioPessoasResponse> GetTotaisPorPessoa(int idUser)
     {
         _logger.Information("Gerando relatório de totais por pessoa");
         
         // Usar o repository para obter os dados
-        var pessoasTotais = await _relatorioRepository.GetTotaisPorPessoaAsync();
-        var totaisGerais = await _relatorioRepository.GetTotaisGeraisAsync();
+        var pessoasTotais = await _relatorioRepository.GetTotaisPorPessoaAsync(idUser);
+        var totaisGerais = await _relatorioRepository.GetTotaisGeraisAsync(idUser);
         
         // Ordenar por maior saldo (ou você pode ordenar por nome, etc)
         pessoasTotais = pessoasTotais
@@ -57,13 +57,13 @@ public class RelatorioController : IRelatorioController
     /// <summary>
     /// Gera relatório de totais por categoria (opcional).
     /// </summary>
-    public async Task<RelatorioCategoriasResponse> GetTotaisPorCategoria()
+    public async Task<RelatorioCategoriasResponse> GetTotaisPorCategoria(int idUser)
     {
         _logger.Information("Gerando relatório de totais por categoria");
         
         // Usar o repository para obter os dados
-        var categoriasTotais = await _relatorioRepository.GetTotaisPorCategoriaAsync();
-        var totaisGerais = await _relatorioRepository.GetTotaisGeraisAsync();
+        var categoriasTotais = await _relatorioRepository.GetTotaisPorCategoriaAsync(idUser);
+        var totaisGerais = await _relatorioRepository.GetTotaisGeraisAsync(idUser);
         
         // Ordenar por maior valor total (absoluto)
         categoriasTotais = categoriasTotais

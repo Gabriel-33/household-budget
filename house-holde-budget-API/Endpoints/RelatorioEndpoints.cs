@@ -1,4 +1,5 @@
 // Endpoints/RelatorioEndpoints.cs
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using HouseholdBudgetApi.Controllers;
 using HouseholdBudgetApi.Summaries;
@@ -46,9 +47,15 @@ public static class RelatorioEndpoints
         [FromServices] IRelatorioController controller)
     {
         RelatorioPessoasResponse result;
+        
+        var claim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+        
+        if (claim == null || !int.TryParse(claim.Value, out int userId))
+            return Results.Unauthorized();
+        
         try
         {
-            result = await controller.GetTotaisPorPessoa();
+            result = await controller.GetTotaisPorPessoa(userId);
         }
         catch (Exception e)
         {
@@ -71,9 +78,15 @@ public static class RelatorioEndpoints
         [FromServices] IRelatorioController controller)
     {
         RelatorioCategoriasResponse result;
+        
+        var claim = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+                
+        if (claim == null || !int.TryParse(claim.Value, out int userId))
+            return Results.Unauthorized();
+                
         try
         {
-            result = await controller.GetTotaisPorCategoria();
+            result = await controller.GetTotaisPorCategoria(userId);
         }
         catch (Exception e)
         {
